@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройки</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="index.html" class="logo-link">
+                    <div class="logo">
+                        <h1>QuickAnswer</h1>
+                    </div>
+                </a>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Поиск вопросов...">
+                    <button class="search-btn">Найти</button>
+                </div>
+
+                <button class="ask-btn" onclick="location.href='ask.html'">Спросить!</button>
+
+                <div class="user-menu">
+                    <div class="user-info">
+                        <div class="avatar">
+                            <img src="images/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
+                        </div>
+                        <div class="user-details">
+                            <span class="username" onclick="location.href='settings.html'">Dr. Pepsi</span>
+                            <div class="user-actions">
+                                <button class="settings-btn">Настройки</button>
+                                <button class="logout-btn">Выйти</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <main class="content">
+                <h2 class="settings-title">Настройки: Dr. Pepsi</h2>
+
+                <form>
+                    <div class="form-group">
+                        <label for="login" class="form-label">Логин</label>
+                        <input type="text" id="login" class="form-input" value="dr.pepsi@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="form-label">Имя</label>
+                        <input type="text" id="name" class="form-input" value="Доктор Пепси">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Аватар</label>
+                        <div class="avatar-upload">
+                            <div class="avatar-preview">
+                                <img src="images/Dr_Pepsi.png" alt="Текущий аватар" class="avatar-current">
+                            </div>
+                            <input type="file" id="avatar" class="avatar-input" accept="image/*">
+                            <label for="avatar" class="avatar-btn">Выбрать изображение</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="save-btn">Сохранить</button>
+                </form>
+            </main>
+
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Популярные теги</h3>
+                    <div class="tags">
+                        <a href="#" class="tag">Python</a>
+                        <a href="#" class="tag">PostgreSQL</a>
+                        <a href="#" class="tag">Django</a>
+                        <a href="#" class="tag">VK</a>
+                        <a href="#" class="tag">Mail.ru</a>
+                        <a href="#" class="tag">Go</a>
+                        <a href="#" class="tag">C++</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Лучшие пользователи</h3>
+                    <div class="top-users">
+                        <div class="user-item">
+                            <span class="user-rank">1</span>
+                            <span class="user-name">Dr. Pepsi</span>
+                        </div>
+                        <div class="user-item">
+                            <span class="user-rank">2</span>
+                            <span class="user-name">Secret User</span>
+                        </div>
+                        <div class="user-item">
+                            <span class="user-rank">3</span>
+                            <span class="user-name">Carte Blanche</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickAnswer</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="index.html" class="logo-link">
+                    <div class="logo">
+                        <h1>QuickAnswer</h1>
+                    </div>
+                </a>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Поиск вопросов...">
+                    <button class="search-btn">Найти</button>
+                </div>
+
+                <button class="ask-btn" onclick="location.href='ask.html'">Спросить!</button>
+
+                <div class="user-menu">
+                    <div class="user-info">
+                        <div class="avatar">
+                            <img src="images/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
+                        </div>
+                        <div class="user-details">
+                            <span class="username">Dr. Pepsi</span>
+                            <div class="user-actions">
+                                <button class="settings-btn">Настройки</button>
+                                <button class="logout-btn">Выйти</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <main class="content">
+                <div class="question-container">
+                    <div class="main-header">
+                        <h2>Тег: Python</h2>
+                    </div>
+
+                    <div class="questions">
+                        <div class="question">
+                            <div class="question-left">
+                                <div class="user-avatar">
+                                    <img src="images/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
+                                </div>
+                                <a href="#" class="username">Dr. Pepsi</a>
+                                <div class="vote-buttons">
+                                    <button class="vote-up">↑</button>
+                                    <span class="rating">15</span>
+                                    <button class="vote-down">↓</button>
+                                </div>
+                            </div>
+
+                            <div class="question-right">
+                                <a href="#" class="question-title">Как настроить Django с PostgreSQL?</a>
+                                <p class="question-text">Подскажите, как правильно настроить соединение между Django и PostgreSQL на production сервере. Какие лучшие практики? Подскажите, как правильно настроить соединение между Django и PostgreSQL на production сервере. Какие лучшие практики?</p>
+                                <div class="question-footer">
+                                    <a href="#" class="answers-link">ответы (5)</a>
+                                    <div class="tags">
+                                        <span class="tags-label">Теги:</span>
+                                        <a href="#" class="tag">Django</a>
+                                        <a href="#" class="tag">PostgreSQL</a>
+                                        <a href="#" class="tag">Python</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="question">
+                            <div class="question-left">
+                                <div class="user-avatar">
+                                    <img src="images/anon.png" alt="Аватар" class="avatar-img">
+                                </div>
+                                <a href="#" class="username">Carte Blanche</a>
+                                <div class="vote-buttons">
+                                    <button class="vote-up">↑</button>
+                                    <span class="rating">6</span>
+                                    <button class="vote-down">↓</button>
+                                </div>
+                            </div>
+
+                            <div class="question-right">
+                                <a href="#" class="question-title">Как развернуть массив?</a>
+                                <p class="question-text">Как развернуть list в Python, не используя встроенные методы списков?</p>
+                                <div class="question-footer">
+                                    <a href="#" class="answers-link">ответы (3)</a>
+                                    <div class="tags">
+                                        <span class="tags-label">Теги:</span>
+                                        <a href="#" class="tag">Python</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pagination">
+                        <a href="#" class="page-link-active">1</a>
+                        <a href="#" class="page-link">2</a>
+                        <a href="#" class="page-link">3</a>
+                        <span class="pade-dots">...</span>
+                        <a href="#" class="page-link">52</a>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Популярные теги</h3>
+                    <div class="tags">
+                        <a href="#" class="tag">Python</a>
+                        <a href="#" class="tag">PostgreSQL</a>
+                        <a href="#" class="tag">Django</a>
+                        <a href="#" class="tag">VK</a>
+                        <a href="#" class="tag">Mail.ru</a>
+                        <a href="#" class="tag">Go</a>
+                        <a href="#" class="tag">C++</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Лучшие пользователи</h3>
+                    <div class="top-users">
+                        <div class="user-item">
+                            <span class="user-rank">1</span>
+                            <span class="user-name">Dr. Pepsi</span>
+                        </div>
+                        <div class="user-item">
+                            <span class="user-rank">2</span>
+                            <span class="user-name">Secret User</span>
+                        </div>
+                        <div class="user-item">
+                            <span class="user-rank">3</span>
+                            <span class="user-name">Carte Blanche</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</body>
+</html>
