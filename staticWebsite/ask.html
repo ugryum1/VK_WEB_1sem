@@ -21,7 +21,7 @@
                     <button class="search-btn">Найти</button>
                 </div>
 
-                <button class="ask-btn" onclick="location.href='question.html'">Спросить!</button>
+                <a class="ask-btn" onclick="location.href='question.html'">Спросить!</a>
 
                 <div class="user-menu">
                     <button class="log-in-btn" onclick="location.href='login.html'">Войти</button>
@@ -38,17 +38,17 @@
                     <form class="question-form">
                         <div class="form-group">
                             <label for="question-title" class="form-label">Название</label>
-                            <input type="text" id="question-title" class="form-input" placeholder="Введите заголовок вопроса">
+                            <input type="text" id="question-title" class="form-input" placeholder="Введите заголовок вопроса" required>
                         </div>
 
                         <div class="form-group">
                             <label for="question-text" class="form-label">Текст вопроса</label>
-                            <textarea id="question-text" class="form-textarea" placeholder="Опишите подробно ваш вопрос" rows="8"></textarea>
+                            <textarea id="question-text" class="form-textarea" placeholder="Опишите подробно ваш вопрос" rows="8" required></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="question-tags" class="form-label">Теги</label>
-                            <input type="text" id="question-tags" class="form-input" placeholder="python, django, postgresql">
+                            <input type="text" id="question-tags" class="form-input" placeholder="python, django, postgresql" required>
                         </div>
 
                         <button type="submit" class="publish-btn">Опубликовать запрос</button>
@@ -89,6 +89,47 @@
                 </div>
             </aside>
         </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3 class="footer-title">QuickAnswer</h3>
+                        <p>Платформа вопросов и ответов для разработчиков.</p>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Разделы</h3>
+                        <ul class="footer-links">
+                            <li><a href="index.html" onclick="location.href='index.html'">Главная</a></li>
+                            <li><a href="#">Популярные вопросы</a></li>
+                            <li><a href="ask.html" onclick="location.href='ask.html'">Задать вопрос</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Помощь</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">Правила сайта</a></li>
+                            <li><a href="#">О проекте</a></li>
+                            <li><a href="#">Контакты</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Сообщество</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Лучшие пользователи</a></li>
+                            <li><a href="#">Популярные теги</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>&copy; 2025 QuickAnswer. Все права защищены.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </body>
 </html>
