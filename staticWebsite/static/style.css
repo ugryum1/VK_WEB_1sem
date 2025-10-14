@@ -909,11 +909,15 @@ body {
     flex-wrap: wrap;
     gap: 32px;
     margin-bottom: 32px;
+    max-width: 1200px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .footer-section {
-    flex: 1;
+    justify-items: center;
     min-width: 200px;
+    max-width: 250px;
 }
 
 .footer-title {
