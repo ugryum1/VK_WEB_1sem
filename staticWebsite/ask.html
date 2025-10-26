@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задать вопрос</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="index.html" class="logo-link">
+                    <div class="logo">
+                        <h1>QuickAnswer</h1>
+                    </div>
+                </a>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Поиск вопросов...">
+                    <button class="search-btn">Найти</button>
+                </div>
+
+                <a class="ask-btn" href='ask.html'>Спросить!</a>
+
+                <div class="user-menu">
+                    <button class="log-in-btn" onclick="location.href='login.html'">Войти</button>
+                    <button class="register-btn" onclick="location.href='register.html'">Зарегистрироваться</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <main class="content">
+                <div class="ask-question-container">
+                    <h2 class="ask-title">Новый вопрос</h2>
+
+                    <form class="question-form">
+                        <div class="form-group">
+                            <label for="question-title" class="form-label">Название</label>
+                            <input type="text" id="question-title" class="form-input" placeholder="Введите заголовок вопроса" required>
+                            <div class="form-error">Заполните это поле</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="question-text" class="form-label">Текст вопроса</label>
+                            <textarea id="question-text" class="form-textarea" placeholder="Опишите подробно ваш вопрос" rows="8" required></textarea>
+                            <div class="form-error">Заполните это поле</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="question-tags" class="form-label">Теги</label>
+                            <input type="text" id="question-tags" class="form-input" placeholder="python, django, postgresql" required>
+                            <div class="form-error">Заполните это поле</div>
+                        </div>
+
+                        <button type="submit" class="publish-btn">Опубликовать запрос</button>
+                    </form>
+                </div>
+            </main>
+
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Популярные теги</h3>
+                    <div class="tags">
+                        <a href="#" class="tag">Python</a>
+                        <a href="#" class="tag">PostgreSQL</a>
+                        <a href="#" class="tag">Django</a>
+                        <a href="#" class="tag">VK</a>
+                        <a href="#" class="tag">Mail.ru</a>
+                        <a href="#" class="tag">Go</a>
+                        <a href="#" class="tag">C++</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Лучшие пользователи</h3>
+                    <div class="top-users">
+                        <div class="user-item">
+                            <span class="user-rank">1</span>
+                            <span class="user-name">Dr. Pepsi</span>
+                        </div>
+                        <div class="user-item">
+                            <span class="user-rank">2</span>
+                            <span class="user-name">Secret User</span>
+                        </div>
+                        <div class="user-item">
+                            <span class="user-rank">3</span>
+                            <span class="user-name">Carte Blanche</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3 class="footer-title">QuickAnswer</h3>
+                        <p>Платформа вопросов и ответов для разработчиков.</p>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Разделы</h3>
+                        <ul class="footer-links">
+                            <li><a href="index.html" onclick="location.href='index.html'">Главная</a></li>
+                            <li><a href="#">Популярные вопросы</a></li>
+                            <li><a href="ask.html" onclick="location.href='ask.html'">Задать вопрос</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Помощь</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">Правила сайта</a></li>
+                            <li><a href="#">О проекте</a></li>
+                            <li><a href="#">Контакты</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Сообщество</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Лучшие пользователи</a></li>
+                            <li><a href="#">Популярные теги</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>&copy; 2025 QuickAnswer. Все права защищены.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

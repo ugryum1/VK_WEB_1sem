@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <main class="auth-container">
+            <form class="auth-form">
+                <a href="index.html" class="logo-link">
+                    <div class="logo2">
+                        <h1>QuickAnswer</h1>
+                    </div>
+                </a>
+                <h2 class="auth-title">Вход в аккаунт</h2>
+
+                <div class="form-group">
+                    <label for="login-username" class="form-label">Логин</label>
+                    <input type="text" id="login-username" class="form-input" placeholder="Введите логин" required>
+                    <div class="form-error">Введите корректный email-адерс</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password" class="form-label">Пароль</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="Введите пароль" required minlength="8">
+                    <div class="form-error">Минимальная длинна пароля - 8 символов (английские буквы, цифры, нижнее подчёркивание)</div>
+                </div>
+
+                <button type="submit" class="auth-btn">Войти</button>
+
+                <div class="auth-footer">
+                    <a href="#" class="auth-link">Забыли пароль?</a>
+                    <span>Нет аккаунта?</span>
+                    <a href="register.html" class="auth-switch">Создать новый</a>
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вопрос</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <a href="index.html" class="logo-link">
+                    <div class="logo">
+                        <h1>QuickAnswer</h1>
+                    </div>
+                </a>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Поиск вопросов...">
+                    <button class="search-btn">Найти</button>
+                </div>
+
+                <a class="ask-btn" href='ask.html'>Спросить!</a>
+
+                <div class="user-menu">
+                    <button class="log-in-btn" onclick="location.href='login.html'">Войти</button>
+                    <button class="register-btn" onclick="location.href='register.html'">Зарегистрироваться</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <main class="content">
+                <div class="question-page">
+
+                    <div class="question">
+                        <div class="question-left">
+                            <div class="user-avatar">
+                                <img src="images/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
+                            </div>
+                            <a href="#" class="username">Dr. Pepsi</a>
+                            <div class="vote-buttons">
+                                <button class="vote-up">↑</button>
+                                <span class="rating">15</span>
+                                <button class="vote-down">↓</button>
+                            </div>
+                        </div>
+
+                        <div class="question-right">
+                            <h1 class="question-title">Как установить Python на Windows?</h1>
+                            <div class="question-text-full">
+                                <p>Подскажите, как правильно установить Python на Windows 10. Нужно ли скачивать с официального сайта или есть другие способы?</p>
+                            </div>
+                            <div class="question-tags">
+                                <a href="#" class="tag">Python</a>
+                                <a href="#" class="tag">Windows</a>
+                                <a href="#" class="tag">Установка</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="answers-section">
+                        <h2 class="answers-title">Ответы (10)</h2>
+
+                        <div class="question answer">
+                            <div class="question-left">
+                                <div class="user-avatar">
+                                    <img src="images/anon.png" alt="Аватар" class="avatar-img">
+                                </div>
+                                <a href="#" class="username">Carte Blanche</a>
+                                <div class="vote-buttons">
+                                    <button class="vote-up">↑</button>
+                                    <span class="rating">8</span>
+                                    <button class="vote-down">↓</button>
+                                </div>
+                            </div>
+
+                            <div class="question-right">
+                                <div class="question-text">
+                                    <p>Скачайте установщик с официального сайта python.org. Запустите скачанный файл и не забудьте поставить галочку "Add Python to PATH" во время установки.</p>
+                                </div>
+                                <button class="answer-action">Ответ подходит</button>
+                            </div>
+                        </div>
+
+                        <div class="question answer">
+                            <div class="question-left">
+                                <div class="user-avatar">
+                                    <img src="images/anon.png" alt="Аватар" class="avatar-img">
+                                </div>
+                                <a href="#" class="username">Secret User</a>
+                                <div class="vote-buttons">
+                                    <button class="vote-up">↑</button>
+                                    <span class="rating">5</span>
+                                    <button class="vote-down">↓</button>
+                                </div>
+                            </div>
+
+                            <div class="question-right">
+                                <div class="question-text">
+                                    <p>Также можно установить через Microsoft Store - это проще для новичков. Просто откройте Microsoft Store, найдите Python и нажмите "Установить".</p>
+                                </div>
+                                <button class="answer-action">Ответ подходит</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pagination">
+                        <a href="#" class="page-link-active">1</a>
+                        <a href="#" class="page-link">2</a>
+                        <a href="#" class="page-link">3</a>
+                        <span class="page-dots">...</span>
+                        <a href="#" class="page-link">10</a>
+                    </div>
+
+                    <div class="answer-form-section">
+                        <h3 class="answer-form-title">Ваш ответ</h3>
+                        <form class="answer-form">
+                            <textarea class="answer-textarea" placeholder="Введите ваш ответ здесь..." rows="6" required></textarea>
+                            <div class="form-error">Заполните это поле</div>
+                            <button type="submit" class="submit-answer-btn">Отправить ответ</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Популярные теги</h3>
+                    <div class="tags">
+                        <a href="#" class="tag">Python</a>
+                        <a href="#" class="tag">PostgreSQL</a>
+                        <a href="#" class="tag">Django</a>
+                        <a href="#" class="tag">VK</a>
+                        <a href="#" class="tag">Mail.ru</a>
+                        <a href="#" class="tag">Go</a>
+                        <a href="#" class="tag">C++</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Лучшие пользователи</h3>
+                    <div class="top-users">
+                        <a href="#" class="user-item">
+                            <span class="user-rank">1</span>
+                            <span class="user-name">Dr. Pepsi</span>
+                        </a>
+                        <a href="#" class="user-item">
+                            <span class="user-rank">2</span>
+                            <span class="user-name">Secret User</span>
+                        </a>
+                        <a href="#" class="user-item">
+                            <span class="user-rank">3</span>
+                            <span class="user-name">Carte Blanche</span>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3 class="footer-title">QuickAnswer</h3>
+                        <p>Платформа вопросов и ответов для разработчиков.</p>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Разделы</h3>
+                        <ul class="footer-links">
+                            <li><a href="index.html" onclick="location.href='index.html'">Главная</a></li>
+                            <li><a href="#">Популярные вопросы</a></li>
+                            <li><a href="ask.html" onclick="location.href='ask.html'">Задать вопрос</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Помощь</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">Правила сайта</a></li>
+                            <li><a href="#">О проекте</a></li>
+                            <li><a href="#">Контакты</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h3 class="footer-title">Сообщество</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Лучшие пользователи</a></li>
+                            <li><a href="#">Популярные теги</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>&copy; 2025 QuickAnswer. Все права защищены.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
