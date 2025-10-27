@@ -1,0 +1,55 @@
+{% extends "questions/base.html" %}
+
+{% block header %}
+<div class="user-menu">
+    <button class="log-in-btn" onclick="location.href='login.html'">Войти</button>
+    <button class="register-btn" onclick="location.href='register.html'">Зарегистрироваться</button>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="ask-question-container">
+    <h2 class="ask-title">Новый вопрос</h2>
+
+    <form class="question-form">
+        <div class="form-group">
+            <label for="question-title" class="form-label">Название</label>
+            <input type="text" id="question-title" class="form-input" placeholder="Введите заголовок вопроса" required>
+            <div class="form-error">Заполните это поле</div>
+        </div>
+
+        <div class="form-group">
+            <label for="question-text" class="form-label">Текст вопроса</label>
+            <textarea id="question-text" class="form-textarea" placeholder="Опишите подробно ваш вопрос" rows="8" required></textarea>
+            <div class="form-error">Заполните это поле</div>
+        </div>
+
+        <div class="form-group">
+            <label for="question-tags" class="form-label">Теги</label>
+            <input type="text" id="question-tags" class="form-input" placeholder="python, django, postgresql" required>
+            <div class="form-error">Заполните это поле</div>
+        </div>
+
+        <button type="submit" class="publish-btn">Опубликовать запрос</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block topUsers %}
+<h3 class="sidebar-title">Лучшие пользователи</h3>
+{% for user in topUsers %}
+    <div class="user-item">
+        <span class="user-rank">{{ user.rank }}</span>
+        <span class="user-name">{{ user.username }}</span>
+    </div>
+{% endfor %}
+{% endblock %}
+
+{% block topTags %}
+<h3 class="sidebar-title">Популярные теги</h3>
+<div class="tags">
+    {% for tag in topTags %}
+        <a href="#" class="tag">{{ tag.tag }}</a>
+    {% endfor %}
+</div>
+{% endblock %}

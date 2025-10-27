@@ -1,0 +1,105 @@
+{% extends "questions/base.html" %}
+
+{% block header %}
+<div class="user-menu">
+    <button class="log-in-btn" onclick="location.href='login.html'">Войти</button>
+    <button class="register-btn" onclick="location.href='register.html'">Зарегистрироваться</button>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="question-page">
+    {% for q in questions %}
+    <div class="question">
+        <div class="question-left">
+            <div class="user-avatar">
+                <img src="{{ q.avatar }}" alt="Аватар" class="avatar-img">
+            </div>
+            <a href="#" class="username">{{ q.username }}</a>
+            <div class="vote-buttons">
+                <button class="vote-up">↑</button>
+                <span class="rating">{{ q.questionRating }}</span>
+                <button class="vote-down">↓</button>
+            </div>
+        </div>
+
+        <div class="question-right">
+            <a href="#" class="question-title" onclick="location.href='question.html'">{{ q.questionTitle }}</a>
+            <p class="question-text">{{ q.questionText }}</p>
+            <div class="question-footer">
+                <a href="#" class="answers-link">ответы ({{ q.answersCount }})</a>
+                <div class="tags">
+                    <span class="tags-label">Теги:</span>
+                    {% for tag in q.tags %}
+                        <a href="#" class="tag">{{ tag }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="answers-section">
+        <h2 class="answers-title">Ответы (10)</h2>
+
+        {% for a in answers %}
+        <div class="question answer">
+            <div class="question-left">
+                <div class="user-avatar">
+                    <img src="{{ a.avatar }}" alt="Аватар" class="avatar-img">
+                </div>
+                <a href="#" class="username">{{ a.username }}</a>
+                <div class="vote-buttons">
+                    <button class="vote-up">↑</button>
+                    <span class="rating">{{ a.answerRating }}</span>
+                    <button class="vote-down">↓</button>
+                </div>
+            </div>
+
+            <div class="question-right">
+                <div class="question-text">
+                    <p>{{ a.answerText }}</p>
+                </div>
+                <button class="answer-action">Ответ подходит</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        <a href="#" class="page-link-active">1</a>
+        <a href="#" class="page-link">2</a>
+        <a href="#" class="page-link">3</a>
+        <span class="page-dots">...</span>
+        <a href="#" class="page-link">10</a>
+    </div>
+
+    <div class="answer-form-section">
+        <h3 class="answer-form-title">Ваш ответ</h3>
+        <form class="answer-form">
+            <textarea class="answer-textarea" placeholder="Введите ваш ответ здесь..." rows="6" required></textarea>
+            <div class="form-error">Заполните это поле</div>
+            <button type="submit" class="submit-answer-btn">Отправить ответ</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block topUsers %}
+<h3 class="sidebar-title">Лучшие пользователи</h3>
+{% for user in topUsers %}
+    <div class="user-item">
+        <span class="user-rank">{{ user.rank }}</span>
+        <span class="user-name">{{ user.username }}</span>
+    </div>
+{% endfor %}
+{% endblock %}
+
+{% block topTags %}
+<h3 class="sidebar-title">Популярные теги</h3>
+<div class="tags">
+    {% for tag in topTags %}
+        <a href="#" class="tag">{{ tag.tag }}</a>
+    {% endfor %}
+</div>
+{% endblock %}
