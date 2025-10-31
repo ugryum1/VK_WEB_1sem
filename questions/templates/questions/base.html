@@ -12,7 +12,7 @@
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <a href="index.html" class="logo-link">
+                <a href="{% url 'questions:main_page' %}" class="logo-link">
                     <div class="logo">
                         <h1>QuickAnswer</h1>
                     </div>
@@ -23,7 +23,7 @@
                     <button class="search-btn">Найти</button>
                 </div>
 
-                <a class="ask-btn" href='ask.html'>Спросить!</a>
+                <a class="ask-btn" href="{% url 'questions:ask' %}">Спросить!</a>
 
                 {% block header %}
                 <div class="user-menu">
@@ -32,10 +32,12 @@
                             <img src="/static/questions/img/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
                         </div>
                         <div class="user-details">
-                            <span class="username" onclick="location.href='settings.html'">Dr. Pepsi</span>
+                            <span class="username">
+                                <a href="{% url 'core:settings' %}" class="username">Dr. Pepsi</a>
+                            </span>
                             <div class="user-actions">
-                                <a class="settings-btn" onclick="location.href='settings.html'">Настройки</a>
-                                <a class="logout-btn">Выйти</a>
+                                <a class="settings-btn" href="{% url 'core:settings' %}">Настройки</a>
+                                <a class="logout-btn" href="{% url 'core:login' %}">Выйти</a>
                             </div>
                         </div>
                     </div>
@@ -76,9 +78,9 @@
                     <div class="footer-section">
                         <h3 class="footer-title">Разделы</h3>
                         <ul class="footer-links">
-                            <li><a href="index.html" onclick="location.href='index.html'">Главная</a></li>
-                            <li><a href="#">Популярные вопросы</a></li>
-                            <li><a href="ask.html" onclick="location.href='ask.html'">Задать вопрос</a></li>
+                            <li><a href="{% url 'questions:main_page' %}" onclick="location.href='index.html'">Главная</a></li>
+                            <li><a href="{% url 'questions:hot' %}">Популярные вопросы</a></li>
+                            <li><a href="{% url 'questions:ask' %}" onclick="location.href='ask.html'">Задать вопрос</a></li>
                         </ul>
                     </div>
 

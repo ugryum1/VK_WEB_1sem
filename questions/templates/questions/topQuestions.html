@@ -7,8 +7,8 @@
 {% block content %}
 <div class="question-container">
     <div class="main-header">
-        <h2>Новые вопросы</h2>
-        <a href="#" class="hot-questions">Популярные вопросы</a>
+        <h2>Популярные вопросы</h2>
+        <a href="{% url 'questions:main_page' %}" class="hot-questions">Новые вопросы</a>
     </div>
 
     <div class="questions">

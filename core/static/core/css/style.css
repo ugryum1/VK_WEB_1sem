@@ -169,6 +169,7 @@ body {
     background: none;
     cursor: pointer;
     color: #666;
+    text-decoration: none;
 }
 
 .logout-btn {

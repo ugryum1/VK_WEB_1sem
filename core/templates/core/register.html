@@ -1,65 +1,58 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация</title>
-    <link rel="stylesheet" href="/static/core/css/style.css">
-</head>
-<body>
-    <div class="container">
-        <main class="auth-container">
-            <form class="auth-form" enctype="multipart/form-data" method="POST">
-                <a href="index.html" class="logo-link">
-                    <div class="logo2">
-                        <h1>QuickAnswer</h1>
-                    </div>
-                </a>
-                <h2 class="auth-title">Регистрация</h2>
+{% extends "core/baseLoginRegister.html" %}
 
-                <div class="form-group">
-                    <label for="reg-login" class="form-label">Логин</label>
-                    <input type="email" id="reg-login" class="form-input" placeholder="Введите email" required>
-                    <div class="form-error">Введите корректный email-адрес</div>
-                </div>
+{% block title %}
+<title>Регистрация</title>
+{% endblock %}
 
-                <div class="form-group">
-                    <label for="reg-password" class="form-label">Пароль</label>
-                    <input type="password" id="reg-password" class="form-input" placeholder="Придумайте пароль" required minlength="8">
-                    <div class="form-error">Минимальная длинна пароля - 8 символов (английские буквы, цифры, нижнее подчёркивание)</div>
-                </div>
+{% block content %}
+<form class="auth-form" enctype="multipart/form-data" method="POST">
+    <a href="{% url 'questions:main_page' %}" class="logo-link">
+        <div class="logo2">
+            <h1>QuickAnswer</h1>
+        </div>
+    </a>
+    <h2 class="auth-title">Регистрация</h2>
 
-                <div class="form-group">
-                    <label for="reg-password-repeat" class="form-label">Повторите пароль</label>
-                    <input type="password" id="reg-password-repeat" class="form-input" placeholder="Повторите пароль" required minlength="8">
-                    <div class="form-error">Пароли должны совпадать</div>
-                </div>
-
-                <div class="form-group">
-                    <label for="reg-name" class="form-label">Имя</label>
-                    <input type="text" id="reg-name" class="form-input" placeholder="Ваше имя" required minlength="3">
-                    <div class="form-error">Минимум 3 символа</div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Аватар (по желанию)</label>
-                    <div class="avatar-upload">
-                        <div class="avatar-preview">
-                            <img src="/static/core/img/anon.png" alt="Текущий аватар" class="avatar-current">
-                        </div>
-                        <input type="file" id="avatar" class="avatar-input" accept="image/*" name="avatar">
-                        <label for="avatar" class="avatar-btn">Выбрать изображение</label>
-                    </div>
-                </div>
-
-                <button type="submit" class="auth-btn">Зарегистрироваться</button>
-
-                <div class="auth-footer">
-                    <span>Уже есть аккаунт?</span>
-                    <a href="login.html" class="auth-switch">Войти</a>
-                </div>
-            </form>
-        </main>
+    <div class="form-group">
+        <label for="reg-login" class="form-label">Логин</label>
+        <input type="email" id="reg-login" class="form-input" placeholder="Введите email" required>
+        <div class="form-error">Введите корректный email-адрес</div>
     </div>
-</body>
-</html>
+
+    <div class="form-group">
+        <label for="reg-password" class="form-label">Пароль</label>
+        <input type="password" id="reg-password" class="form-input" placeholder="Придумайте пароль" required minlength="8">
+        <div class="form-error">Минимальная длинна пароля - 8 символов (английские буквы, цифры, нижнее подчёркивание)</div>
+    </div>
+
+    <div class="form-group">
+        <label for="reg-password-repeat" class="form-label">Повторите пароль</label>
+        <input type="password" id="reg-password-repeat" class="form-input" placeholder="Повторите пароль" required minlength="8">
+        <div class="form-error">Пароли должны совпадать</div>
+    </div>
+
+    <div class="form-group">
+        <label for="reg-name" class="form-label">Имя</label>
+        <input type="text" id="reg-name" class="form-input" placeholder="Ваше имя" required minlength="3">
+        <div class="form-error">Минимум 3 символа</div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Аватар (по желанию)</label>
+        <div class="avatar-upload">
+            <div class="avatar-preview">
+                <img src="/static/core/img/anon.png" alt="Текущий аватар" class="avatar-current">
+            </div>
+            <input type="file" id="avatar" class="avatar-input" accept="image/*" name="avatar">
+            <label for="avatar" class="avatar-btn">Выбрать изображение</label>
+        </div>
+    </div>
+
+    <button type="submit" class="auth-btn">Зарегистрироваться</button>
+
+    <div class="auth-footer">
+        <span>Уже есть аккаунт?</span>
+        <a href="{% url 'core:login' %}" class="auth-switch">Войти</a>
+    </div>
+</form>
+{% endblock%}
