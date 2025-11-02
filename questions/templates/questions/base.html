@@ -53,12 +53,12 @@
             </main>
 
             <aside class="sidebar">
-                <div class="sidebar-section">
+                <div class="sidebar-section" id="top_tags">
                     {% block topTags %}
                     {% endblock %}
                 </div>
 
-                <div class="sidebar-section">
+                <div class="sidebar-section" id="top_users">
                     <div class="top-users">
                         {% block topUsers %}
                         {% endblock %}
@@ -96,8 +96,8 @@
                     <div class="footer-section">
                         <h3 class="footer-title">Сообщество</h4>
                         <ul class="footer-links">
-                            <li><a href="#">Лучшие пользователи</a></li>
-                            <li><a href="#">Популярные теги</a></li>
+                            <li><a href="#top_users">Лучшие пользователи</a></li>
+                            <li><a href="#top_tags">Популярные теги</a></li>
                         </ul>
                     </div>
 

@@ -7,7 +7,7 @@
 {% block content %}
 <div class="question-container">
     <div class="main-header">
-        <h2>Тег: Python</h2>
+        <h2>Тег: {{ tag.tag }}</h2>
     </div>
 
     <div class="questions">
@@ -17,7 +17,7 @@
                 <div class="user-avatar">
                     <img src="{{ q.avatar }}" alt="Аватар" class="avatar-img">
                 </div>
-                <a href="#" class="username">{{ q.username }}</a>
+                <span class="username-question">{{ q.username }}</span>
                 <div class="vote-buttons">
                     <button class="vote-up">↑</button>
                     <span class="rating">{{ q.questionRating }}</span>
@@ -33,7 +33,11 @@
                     <div class="tags">
                         <span class="tags-label">Теги:</span>
                         {% for tag in q.tags %}
-                            <a href="#" class="tag">{{ tag }}</a>
+                            {% for t in topTags %}
+                                {% if t.tag == tag %}
+                                    <a href="{% url 'questions:tag' t.id %}" class="tag">{{ tag }}</a>
+                                {% endif %}
+                            {% endfor %}
                         {% endfor %}
                     </div>
                 </div>
@@ -43,11 +47,31 @@
     </div>
 
     <div class="pagination">
-        <a href="#" class="page-link-active">1</a>
-        <a href="#" class="page-link">2</a>
-        <a href="#" class="page-link">3</a>
-        <span class="pade-dots">...</span>
-        <a href="#" class="page-link">52</a>
+        {% if questions.has_previous %}
+            {% if questions.previous_page_number != 1 %}
+            <a href="?page=1" class="page-link">1</a>
+            {% endif %}
+            {% if questions.previous_page_number > 2 %}
+                <span class="page-dots">...</span>
+            {% endif %}
+            <a href="?page={{ questions.previous_page_number }}" class="page-link">{{ questions.previous_page_number }}</a>
+        {% endif %}
+
+        {% for num in questions.paginator.page_range %}
+            {% if questions.number == num %}
+                <a href="?page={{ num }}" class="page-link-active">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if questions.has_next %}
+            {% if questions.next_page_number != questions.paginator.num_pages %}
+            <a href="?page={{ questions.next_page_number }}" class="page-link">{{ questions.next_page_number }}</a>
+            {% endif %}
+            {% if questions.paginator.num_pages > questions.next_page_number|add:1 %}
+                <span class="page-dots">...</span>
+            {% endif %}
+            <a href="?page={{ questions.paginator.num_pages }}" class="page-link">{{ questions.paginator.num_pages }}</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
@@ -65,8 +89,8 @@
 {% block topTags %}
 <h3 class="sidebar-title">Популярные теги</h3>
 <div class="tags">
-    {% for tag in topTags %}
-        <a href="#" class="tag">{{ tag.tag }}</a>
+    {% for tag in topTags|slice:":7" %}
+        <a href="{% url 'questions:tag' tag.id %}" class="tag">{{ tag.tag }}</a>
     {% endfor %}
 </div>
 {% endblock %}
