@@ -13,40 +13,10 @@
 
 {% block content %}
 <div class="question-page">
-    {% for q in questions %}
-    <div class="question">
-        <div class="question-left">
-            <div class="user-avatar">
-                <img src="{{ q.avatar }}" alt="Аватар" class="avatar-img">
-            </div>
-            <span class="username-question">{{ q.username }}</span>
-            <div class="vote-buttons">
-                <button class="vote-up">↑</button>
-                <span class="rating">{{ q.questionRating }}</span>
-                <button class="vote-down">↓</button>
-            </div>
-        </div>
-
-        <div class="question-right">
-            <span class="question-title">{{ q.questionTitle }}</span>
-            <p class="question-text">{{ q.questionText }}</p>
-            <div class="question-footer">
-                <div class="tags">
-                    <span class="tags-label">Теги:</span>
-                    {% for tag in q.tags %}
-                        {% for t in topTags %}
-                            {% if t.tag == tag %}
-                                <a href="{% url 'questions:tag' t.id %}" class="tag">{{ tag }}</a>
-                            {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
+    {% include "questions/includes/print_questions.html" %}
 
     <div class="answers-section">
-        <h2 class="answers-title">Ответы ({{ q.answersCount }})</h2>
+        <h2 class="answers-title">Ответы ({{ answers.paginator.count }})</h2>
 
         {% for a in answers %}
         <div class="question answer">
@@ -57,49 +27,22 @@
                 <span class="username-question">{{ a.username }}</span>
                 <div class="vote-buttons">
                     <button class="vote-up">↑</button>
-                    <span class="rating">{{ a.answerRating }}</span>
+                    <span class="rating">{{ a.answer_rating }}</span>
                     <button class="vote-down">↓</button>
                 </div>
             </div>
 
             <div class="question-right">
                 <div class="question-text">
-                    <p>{{ a.answerText }}</p>
+                    <p>{{ a.answer_text }}</p>
                 </div>
                 <button class="answer-action">Ответ подходит</button>
             </div>
         </div>
         {% endfor %}
     </div>
-    {% endfor %}
 
-    <div class="pagination">
-        {% if questions.has_previous %}
-            {% if questions.previous_page_number != 1 %}
-            <a href="?page=1" class="page-link">1</a>
-            {% endif %}
-            {% if questions.previous_page_number > 2 %}
-                <span class="page-dots">...</span>
-            {% endif %}
-            <a href="?page={{ questions.previous_page_number }}" class="page-link">{{ questions.previous_page_number }}</a>
-        {% endif %}
-
-        {% for num in questions.paginator.page_range %}
-            {% if questions.number == num %}
-                <a href="?page={{ num }}" class="page-link-active">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if questions.has_next %}
-            {% if questions.next_page_number != questions.paginator.num_pages %}
-            <a href="?page={{ questions.next_page_number }}" class="page-link">{{ questions.next_page_number }}</a>
-            {% endif %}
-            {% if questions.paginator.num_pages > questions.next_page_number|add:1 %}
-                <span class="page-dots">...</span>
-            {% endif %}
-            <a href="?page={{ questions.paginator.num_pages }}" class="page-link">{{ questions.paginator.num_pages }}</a>
-        {% endif %}
-    </div>
+    {% include "questions/includes/pagination.html" with page=answers %}
 
     <div class="answer-form-section">
         <h3 class="answer-form-title">Ваш ответ</h3>
@@ -112,21 +55,10 @@
 </div>
 {% endblock %}
 
-{% block topUsers %}
-<h3 class="sidebar-title">Лучшие пользователи</h3>
-{% for user in topUsers %}
-    <div class="user-item">
-        <span class="user-rank">{{ user.rank }}</span>
-        <span class="user-name">{{ user.username }}</span>
-    </div>
-{% endfor %}
+{% block top_tags %}
+    {% include "questions/includes/top_tags.html" with tags=top_tags %}
 {% endblock %}
 
-{% block topTags %}
-<h3 class="sidebar-title">Популярные теги</h3>
-<div class="tags">
-    {% for tag in topTags|slice:":7" %}
-        <a href="{% url 'questions:tag' tag.id %}" class="tag">{{ tag.tag }}</a>
-    {% endfor %}
-</div>
+{% block top_users %}
+    {% include "questions/includes/top_users.html" with users=top_users %}
 {% endblock %}

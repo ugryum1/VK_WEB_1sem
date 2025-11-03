@@ -1,10 +1,14 @@
 {% extends "questions/base.html" %}
 
+{% block title %}
+<title>Новые вопросы</title>
+{% endblock %}
+
 {% block content %}
 <div class="question-container">
     <div class="main-header">
-        <h2>Новые вопросы</h2>
-        <a href="{% url 'questions:hot' %}" class="hot-questions">Популярные вопросы</a>
+        <h2>Популярные вопросы</h2>
+        <a href="{% url 'questions:main_page' %}" class="hot-questions">Новые вопросы</a>
     </div>
 
     {% include "questions/includes/print_questions.html" %}

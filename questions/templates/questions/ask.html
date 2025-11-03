@@ -39,21 +39,10 @@
 </div>
 {% endblock %}
 
-{% block topUsers %}
-<h3 class="sidebar-title">Лучшие пользователи</h3>
-{% for user in topUsers %}
-    <div class="user-item">
-        <span class="user-rank">{{ user.rank }}</span>
-        <span class="user-name">{{ user.username }}</span>
-    </div>
-{% endfor %}
+{% block top_tags %}
+    {% include "questions/includes/top_tags.html" with tags=top_tags %}
 {% endblock %}
 
-{% block topTags %}
-<h3 class="sidebar-title">Популярные теги</h3>
-<div class="tags">
-    {% for tag in topTags|slice:":7" %}
-        <a href="{% url 'questions:tag' tag.id %}" class="tag">{{ tag.tag }}</a>
-    {% endfor %}
-</div>
+{% block top_users %}
+    {% include "questions/includes/top_users.html" with users=top_users %}
 {% endblock %}
