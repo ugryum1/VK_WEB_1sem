@@ -5,9 +5,11 @@
 venv/
 
 __pycache__/
-
-__pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+
+*/migrations/__pycache__
+*/migrations/__pycache__/
+*/migrations/*.pyc
