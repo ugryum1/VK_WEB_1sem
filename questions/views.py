@@ -1,7 +1,13 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import Http404
 from fictional_data import TOPUSERS, TAGS, QUESTIONS, ANSWERS
+
+
+def base(request, *args, **kwargs):
+    return render(request, context={"top_users": TOPUSERS, "top_tags": TAGS})
+
 
 def index(request, *args, **kwargs):
     questions_per_page = 3
@@ -15,22 +21,23 @@ def index(request, *args, **kwargs):
     except EmptyPage:
         page_questions = paginator.page(paginator.num_pages)
 
-    return render(request, 'questions/index.html', context={"questions": page_questions, "top_users": TOPUSERS, "top_tags": TAGS})
+    return render(request, 'questions/index.html',
+                  context={"questions": page_questions, "top_users": TOPUSERS, "top_tags": TAGS})
 
-def question(request, question_ID, *args, **kwargs):
-    current_question = []
+
+def question(request, question_id, *args, **kwargs):
+    current_question = None
     for question in QUESTIONS:
-        if question["id"] == question_ID:
-            current_question.append(question)
+        if question["id"] == question_id:
+            current_question = question
             break
 
     if not current_question:
-        from django.http import Http404
         raise Http404("Вопрос не найден")
 
     question_answers = []
     for answer in ANSWERS:
-        if answer.get("question_ID") == question_ID:
+        if answer.get("question_id") == question_id:
             question_answers.append(answer)
 
     answers_per_page = 2
@@ -44,20 +51,24 @@ def question(request, question_ID, *args, **kwargs):
     except EmptyPage:
         paginated_answers = paginator.page(paginator.num_pages)
 
-    return render(request, 'questions/question.html', context={"questions": current_question, "answers": paginated_answers, "top_users": TOPUSERS, "top_tags": TAGS})
+    return render(request, 'questions/question.html',
+                  context={"question": current_question, "answers": paginated_answers,
+                           "top_users": TOPUSERS, "top_tags": TAGS})
+
 
 def ask(request, *args, **kwargs):
-    return render(request, 'questions/ask.html', context={"top_users": TOPUSERS, "top_tags": TAGS})
+    return render(request, 'questions/ask.html',
+                  context={"top_users": TOPUSERS, "top_tags": TAGS})
 
-def tag(request, tag_ID, *args, **kwargs):
+
+def tag(request, tag_id, *args, **kwargs):
     current_tag = None
     for tag_obj in TAGS:
-        if tag_obj["id"] == tag_ID:
+        if tag_obj["id"] == tag_id:
             current_tag = tag_obj
             break
 
     if current_tag is None:
-        from django.http import Http404
         raise Http404("Тег не найден")
 
     tag_questions = []
@@ -76,7 +87,10 @@ def tag(request, tag_ID, *args, **kwargs):
     except EmptyPage:
         page_questions = paginator.page(paginator.num_pages)
 
-    return render(request, 'questions/tag.html', context={"tag": current_tag, "questions": page_questions, "top_users": TOPUSERS, "top_tags": TAGS})
+    return render(request, 'questions/tag.html',
+                  context={"tag": current_tag, "questions": page_questions,
+                           "top_users": TOPUSERS, "top_tags": TAGS})
+
 
 def top(request, *args, **kwargs):
     questions_per_page = 3
@@ -90,4 +104,5 @@ def top(request, *args, **kwargs):
     except EmptyPage:
         page_questions = paginator.page(paginator.num_pages)
 
-    return render(request, 'questions/top_questions.html', context={"questions": page_questions, "top_users": TOPUSERS, "top_tags": TAGS})
+    return render(request, 'questions/top_questions.html',
+                  context={"questions": page_questions, "top_users": TOPUSERS, "top_tags": TAGS})

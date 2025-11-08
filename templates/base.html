@@ -6,7 +6,7 @@
     {% block title %}
     <title>QuickAnswer</title>
     {% endblock %}
-    <link rel="stylesheet" href="/static/questions/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -29,7 +29,7 @@
                 <div class="user-menu">
                     <div class="user-info">
                         <div class="avatar">
-                            <img src="/static/questions/img/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
+                            <img src="/static/img/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
                         </div>
                         <div class="user-details">
                             <span class="username">
@@ -54,14 +54,12 @@
 
             <aside class="sidebar">
                 <div class="sidebar-section" id="top_tags">
-                    {% block top_tags %}
-                    {% endblock %}
+                    {% include "questions/includes/top_tags.html" with tags=top_tags %}
                 </div>
 
                 <div class="sidebar-section" id="top_users">
                     <div class="top-users">
-                        {% block top_users %}
-                        {% endblock %}
+                        {% include "questions/includes/top_users.html" with users=top_users %}
                     </div>
                 </div>
             </aside>
@@ -78,9 +76,9 @@
                     <div class="footer-section">
                         <h3 class="footer-title">Разделы</h3>
                         <ul class="footer-links">
-                            <li><a href="{% url 'questions:main_page' %}" onclick="location.href='index.html'">Главная</a></li>
+                            <li><a href="{% url 'questions:main_page' %}">Главная</a></li>
                             <li><a href="{% url 'questions:hot' %}">Популярные вопросы</a></li>
-                            <li><a href="{% url 'questions:ask' %}" onclick="location.href='ask.html'">Задать вопрос</a></li>
+                            <li><a href="{% url 'questions:ask' %}">Задать вопрос</a></li>
                         </ul>
                     </div>
 

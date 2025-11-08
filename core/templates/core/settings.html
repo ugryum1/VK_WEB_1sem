@@ -1,4 +1,4 @@
-{% extends "questions/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
 <title>Задать вопрос</title>
@@ -24,7 +24,7 @@
             <label class="form-label">Аватар</label>
             <div class="avatar-upload">
                 <div class="avatar-preview">
-                    <img src="/static/core/img/Dr_Pepsi.png" alt="Текущий аватар" class="avatar-current">
+                    <img src="/static/img/Dr_Pepsi.png" alt="Текущий аватар" class="avatar-current">
                 </div>
                 <input type="file" id="avatar" class="avatar-input" accept="image/*" name="avatar">
                 <label for="avatar" class="avatar-btn">Выбрать изображение</label>
@@ -33,12 +33,4 @@
 
         <button type="submit" class="save-btn">Сохранить</button>
     </form>
-{% endblock %}
-
-{% block top_tags %}
-    {% include "questions/includes/top_tags.html" with tags=top_tags %}
-{% endblock %}
-
-{% block top_users %}
-    {% include "questions/includes/top_users.html" with users=top_users %}
 {% endblock %}

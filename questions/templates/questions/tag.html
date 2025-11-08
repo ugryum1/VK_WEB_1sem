@@ -1,4 +1,4 @@
-{% extends "questions/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
 <title>Вопросы по тегу</title>
@@ -10,16 +10,12 @@
         <h2>Тег: {{ tag.tag }}</h2>
     </div>
 
-    {% include "questions/includes/print_questions.html" %}
+    <div class="questions">
+        {% for q in questions %}
+            {% include "questions/includes/print_question.html" %}
+        {% endfor %}
+    </div>
 
     {% include "questions/includes/pagination.html" with page=questions %}
 </div>
-{% endblock %}
-
-{% block top_tags %}
-    {% include "questions/includes/top_tags.html" with tags=top_tags %}
-{% endblock %}
-
-{% block top_users %}
-    {% include "questions/includes/top_users.html" with users=top_users %}
 {% endblock %}

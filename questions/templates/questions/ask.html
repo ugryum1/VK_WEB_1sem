@@ -1,4 +1,4 @@
-{% extends "questions/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
 <title>Задать вопрос</title>
@@ -37,12 +37,4 @@
         <button type="submit" class="publish-btn">Опубликовать запрос</button>
     </form>
 </div>
-{% endblock %}
-
-{% block top_tags %}
-    {% include "questions/includes/top_tags.html" with tags=top_tags %}
-{% endblock %}
-
-{% block top_users %}
-    {% include "questions/includes/top_users.html" with users=top_users %}
 {% endblock %}
