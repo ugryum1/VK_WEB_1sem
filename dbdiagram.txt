@@ -1,0 +1,62 @@
+Table user {
+  id integer [primary key, not null]
+  avatar varchar
+  name varchar [unique, not null]
+}
+
+Table question {
+  id integer [primary key, not null]
+  title varchar
+  description text
+  user_id integer [not null]
+  rating integer
+  created_at timestamp
+}
+
+Table answer {
+  id integer [primary key, not null]
+  question_id integer [not null]
+  text text
+  user_id integer [not null]
+  rating integer
+  created_at timestamp
+}
+
+Table tag {
+  id integer [primary key, not null]
+  title varchar [unique, not null]
+}
+
+Table question_tag {
+  id integer [primary key, not null]
+  question_id integer [not null]
+  tag_id integer [not null]
+}
+
+Table answer_tag {
+  id integer [primary key, not null]
+  answer_id integer [not null]
+  tag_id integer [not null]
+}
+
+Table like {
+  id integer [primary key, not null]
+  weight integer
+  user_id integer [not null]
+  question_id integer
+  answer_id integer
+}
+
+Ref: user.id < question.user_id
+Ref: user.id < answer.user_id
+Ref: question.id < answer.question_id
+
+Ref: question.id < question_tag.question_id
+Ref: tag.id < question_tag.tag_id
+
+Ref: answer.id < answer_tag.answer_id
+Ref: tag.id < answer_tag.tag_id
+
+Ref: user.id < like.user_id
+Ref: question.id < like.question_id
+Ref: answer.id < like.answer_id

@@ -24,19 +24,19 @@
         <div class="question answer">
             <div class="question-left">
                 <div class="user-avatar">
-                    <img src="{{ a.avatar }}" alt="Аватар" class="avatar-img">
+                    <img src="{{ a.user.userprofile.avatar }}" alt="Аватар" class="avatar-img">
                 </div>
-                <span class="username-question">{{ a.username }}</span>
+                <span class="username-question">{{ a.user.username }}</span>
                 <div class="vote-buttons">
                     <button class="vote-up">↑</button>
-                    <span class="rating">{{ a.answer_rating }}</span>
+                    <span class="rating">{{ a.rating }}</span>
                     <button class="vote-down">↓</button>
                 </div>
             </div>
 
             <div class="question-right">
                 <div class="question-text">
-                    <p>{{ a.answer_text }}</p>
+                    <p>{{ a.text }}</p>
                 </div>
                 <button class="answer-action">Ответ подходит</button>
             </div>

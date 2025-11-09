@@ -1,17 +1,35 @@
 from django.shortcuts import render
-from django.shortcuts import redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
-from fictional_data import TOPUSERS, TAGS, QUESTIONS, ANSWERS
+from django.db.models import Count
+from .models import Question, Answer, Tag, QuestionTag
+from django.contrib.auth.models import User
+
+
+def get_top_data():
+    """Вспомогательная функция для получения топ данных"""
+    top_users = User.objects.annotate(
+        question_count=Count('question')
+    ).order_by('-question_count')[:3]
+
+    top_tags = Tag.objects.annotate(
+        question_count=Count('questiontag__question')
+    ).order_by('-question_count')[:7]
+
+    return top_users, top_tags
 
 
 def base(request, *args, **kwargs):
-    return render(request, context={"top_users": TOPUSERS, "top_tags": TAGS})
+    top_users, top_tags = get_top_data()
+    return render(request, context={"top_users": top_users, "top_tags": top_tags})
 
 
 def index(request, *args, **kwargs):
+    top_users, top_tags = get_top_data()
+    questions_list = Question.objects.all().select_related('user')
+
     questions_per_page = 3
-    paginator = Paginator(QUESTIONS, questions_per_page)
+    paginator = Paginator(questions_list, questions_per_page)
 
     page_number = request.GET.get('page')
     try:
@@ -22,23 +40,18 @@ def index(request, *args, **kwargs):
         page_questions = paginator.page(paginator.num_pages)
 
     return render(request, 'questions/index.html',
-                  context={"questions": page_questions, "top_users": TOPUSERS, "top_tags": TAGS})
+                  context={"questions": page_questions, "top_users": top_users, "top_tags": top_tags})
 
 
 def question(request, question_id, *args, **kwargs):
-    current_question = None
-    for question in QUESTIONS:
-        if question["id"] == question_id:
-            current_question = question
-            break
+    top_users, top_tags = get_top_data()
 
-    if not current_question:
+    try:
+        current_question = Question.objects.select_related('user').get(id=question_id)
+    except:
         raise Http404("Вопрос не найден")
 
-    question_answers = []
-    for answer in ANSWERS:
-        if answer.get("question_id") == question_id:
-            question_answers.append(answer)
+    question_answers = Answer.objects.filter(question=current_question).select_related('user').order_by('-rating')
 
     answers_per_page = 2
     paginator = Paginator(question_answers, answers_per_page)
@@ -53,28 +66,25 @@ def question(request, question_id, *args, **kwargs):
 
     return render(request, 'questions/question.html',
                   context={"question": current_question, "answers": paginated_answers,
-                           "top_users": TOPUSERS, "top_tags": TAGS})
+                           "top_users": top_users, "top_tags": top_tags})
 
 
 def ask(request, *args, **kwargs):
+    top_users, top_tags = get_top_data()
     return render(request, 'questions/ask.html',
-                  context={"top_users": TOPUSERS, "top_tags": TAGS})
+                  context={"top_users": top_users, "top_tags": top_tags})
 
 
 def tag(request, tag_id, *args, **kwargs):
-    current_tag = None
-    for tag_obj in TAGS:
-        if tag_obj["id"] == tag_id:
-            current_tag = tag_obj
-            break
+    top_users, top_tags = get_top_data()
 
-    if current_tag is None:
+    try:
+        current_tag = Tag.objects.get(id=tag_id)
+    except Tag.DoesNotExist:
         raise Http404("Тег не найден")
 
-    tag_questions = []
-    for question in QUESTIONS:
-        if current_tag["tag"] in question["tags"]:
-            tag_questions.append(question)
+    question_ids = QuestionTag.objects.filter(tag=current_tag).values_list('question_id', flat=True)
+    tag_questions = Question.objects.filter(id__in=question_ids).select_related('user')
 
     questions_per_page = 3
     paginator = Paginator(tag_questions, questions_per_page)
@@ -89,12 +99,16 @@ def tag(request, tag_id, *args, **kwargs):
 
     return render(request, 'questions/tag.html',
                   context={"tag": current_tag, "questions": page_questions,
-                           "top_users": TOPUSERS, "top_tags": TAGS})
+                           "top_users": top_users, "top_tags": top_tags})
 
 
 def top(request, *args, **kwargs):
+    top_users, top_tags = get_top_data()
+
+    questions_list = Question.objects.all().select_related('user').order_by('-rating')
+
     questions_per_page = 3
-    paginator = Paginator(sorted(QUESTIONS, key=lambda x: x["question_rating"])[::-1], questions_per_page)
+    paginator = Paginator(questions_list, questions_per_page)
 
     page_number = request.GET.get('page')
     try:
@@ -105,4 +119,4 @@ def top(request, *args, **kwargs):
         page_questions = paginator.page(paginator.num_pages)
 
     return render(request, 'questions/top_questions.html',
-                  context={"questions": page_questions, "top_users": TOPUSERS, "top_tags": TAGS})
+                  context={"questions": page_questions, "top_users": top_users, "top_tags": top_tags})
