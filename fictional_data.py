@@ -64,7 +64,7 @@ QUESTIONS = [
         "answers_count": 4,
         "tags": ["Python", "Windows", "Установка"],
         "username": "Dr. Pepsi",
-        "avatar": "/static/questions/img/Dr_Pepsi.png",
+        "avatar": "/static/img/Dr_Pepsi.png",
         "question_rating": 15
     },
     {
@@ -74,7 +74,7 @@ QUESTIONS = [
         "answers_count": 3,
         "tags": ["Go", "Микросервисы"],
         "username": "Secret User",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 8
     },
     {
@@ -84,7 +84,7 @@ QUESTIONS = [
         "answers_count": 3,
         "tags": ["Django", "PostgreSQL", "Python"],
         "username": "Carte Blanche",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 5
     },
     {
@@ -94,7 +94,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Python", "Windows", "Установка"],
         "username": "Dr. Pepsi",
-        "avatar": "/static/questions/img/Dr_Pepsi.png",
+        "avatar": "/static/img/Dr_Pepsi.png",
         "question_rating": 15
     },
     {
@@ -104,7 +104,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Go", "Микросервисы"],
         "username": "Secret User",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 8
     },
     {
@@ -114,7 +114,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Django", "PostgreSQL", "Python"],
         "username": "Carte Blanche",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 5
     },
     {
@@ -124,7 +124,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Python", "Windows", "Установка"],
         "username": "Dr. Pepsi",
-        "avatar": "/static/questions/img/Dr_Pepsi.png",
+        "avatar": "/static/img/Dr_Pepsi.png",
         "question_rating": 15
     },
     {
@@ -134,7 +134,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Go", "Микросервисы"],
         "username": "Secret User",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 8
     },
     {
@@ -144,7 +144,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Django", "PostgreSQL", "Python"],
         "username": "Carte Blanche",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 5
     },
     {
@@ -154,7 +154,7 @@ QUESTIONS = [
         "answers_count": 1,
         "tags": ["Python", "Windows", "Установка"],
         "username": "Dr. Pepsi",
-        "avatar": "/static/questions/img/Dr_Pepsi.png",
+        "avatar": "/static/img/Dr_Pepsi.png",
         "question_rating": 15
     },
     {
@@ -164,7 +164,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Go", "Микросервисы"],
         "username": "Secret User",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 8
     },
     {
@@ -174,7 +174,7 @@ QUESTIONS = [
         "answers_count": 1,
         "tags": ["Django", "PostgreSQL", "Python"],
         "username": "Carte Blanche",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 5
     },
     {
@@ -184,7 +184,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Python", "Windows", "Установка"],
         "username": "Dr. Pepsi",
-        "avatar": "/static/questions/img/Dr_Pepsi.png",
+        "avatar": "/static/img/Dr_Pepsi.png",
         "question_rating": 15
     },
     {
@@ -194,7 +194,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Go", "Микросервисы"],
         "username": "Secret User",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 8
     },
     {
@@ -204,7 +204,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Django", "PostgreSQL", "Python"],
         "username": "Carte Blanche",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 5
     },
     {
@@ -214,7 +214,7 @@ QUESTIONS = [
         "answers_count": 1,
         "tags": ["Python", "Windows", "Установка"],
         "username": "Dr. Pepsi",
-        "avatar": "/static/questions/img/Dr_Pepsi.png",
+        "avatar": "/static/img/Dr_Pepsi.png",
         "question_rating": 15
     },
     {
@@ -224,7 +224,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Go", "Микросервисы"],
         "username": "Secret User",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 8
     },
     {
@@ -234,7 +234,7 @@ QUESTIONS = [
         "answers_count": 1,
         "tags": ["Django", "PostgreSQL", "Python"],
         "username": "Carte Blanche",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 5
     },
     {
@@ -244,7 +244,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Python", "Windows", "Установка"],
         "username": "Dr. Pepsi",
-        "avatar": "/static/questions/img/Dr_Pepsi.png",
+        "avatar": "/static/img/Dr_Pepsi.png",
         "question_rating": 15
     },
     {
@@ -254,7 +254,7 @@ QUESTIONS = [
         "answers_count": 2,
         "tags": ["Go", "Микросервисы"],
         "username": "Secret User",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "question_rating": 8
     }
 ]
@@ -266,7 +266,7 @@ ANSWERS = [
         "question_id": 1,
         "answer_text": "Скачайте установщик с официального сайта python.org. Запустите скачанный файл и не забудьте поставить галочку 'Add Python to PATH' во время установки.",
         "username": "Carte Blanche",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 8
     },
     {
@@ -274,7 +274,7 @@ ANSWERS = [
         "question_id": 1,
         "answer_text": "Также можно установить через Microsoft Store - это проще для новичков. Просто откройте Microsoft Store, найдите Python и нажмите 'Установить'.",
         "username": "Secret User",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 5
     },
     {
@@ -282,7 +282,7 @@ ANSWERS = [
         "question_id": 1,
         "answer_text": "Рекомендую использовать pyenv для управления версиями Python, особенно если вы планируете работать с несколькими проектами.",
         "username": "Python Expert",
-        "avatar": "/static/questions/img/Dr_Pepsi.png",
+        "avatar": "/static/img/Dr_Pepsi.png",
         "answer_rating": 12
     },
     {
@@ -290,7 +290,7 @@ ANSWERS = [
         "question_id": 1,
         "answer_text": "После установки проверьте в командной строке: python --version. Должна отобразиться установленная версия.",
         "username": "Tech Helper",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 3
     },
 
@@ -300,7 +300,7 @@ ANSWERS = [
         "question_id": 2,
         "answer_text": "Используйте goroutine и channels для асинхронной обработки запросов. Это одна из сильных сторон Go.",
         "username": "Go Developer",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 15
     },
     {
@@ -308,7 +308,7 @@ ANSWERS = [
         "question_id": 2,
         "answer_text": "Рекомендую паттерн hexagonal architecture для лучшей тестируемости и поддерживаемости кода.",
         "username": "Architecture Guru",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 9
     },
     {
@@ -316,7 +316,7 @@ ANSWERS = [
         "question_id": 2,
         "answer_text": "Не забывайте про graceful shutdown - обрабатывайте сигналы SIGTERM и SIGINT.",
         "username": "DevOps Pro",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 7
     },
 
@@ -326,7 +326,7 @@ ANSWERS = [
         "question_id": 3,
         "answer_text": "В settings.py укажите DATABASES с правильными параметрами: NAME, USER, PASSWORD, HOST, PORT.",
         "username": "Django Master",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 11
     },
     {
@@ -334,7 +334,7 @@ ANSWERS = [
         "question_id": 3,
         "answer_text": "Используйте connection pooling с помощью django-db-connections или pgBouncer.",
         "username": "DB Expert",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 6
     },
     {
@@ -342,7 +342,7 @@ ANSWERS = [
         "question_id": 3,
         "answer_text": "Настройте правильные права доступа для пользователя базы данных в PostgreSQL.",
         "username": "Security First",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 4
     },
 
@@ -352,7 +352,7 @@ ANSWERS = [
         "question_id": 4,
         "answer_text": "Для Windows рекомендую скачивать с официального сайта, а не использовать сторонние источники.",
         "username": "Security Advisor",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 8
     },
     {
@@ -360,7 +360,7 @@ ANSWERS = [
         "question_id": 4,
         "answer_text": "Проверьте разрядность вашей системы (32 или 64 бита) перед скачиванием.",
         "username": "Tech Support",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 5
     },
 
@@ -370,7 +370,7 @@ ANSWERS = [
         "question_id": 5,
         "answer_text": "Используйте context для управления временем жизни запросов и отмены операций.",
         "username": "Go Concurrency",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 10
     },
     {
@@ -378,7 +378,7 @@ ANSWERS = [
         "question_id": 5,
         "answer_text": "Рекомендую gRPC для межсервисного взаимодействия вместо REST API.",
         "username": "Microservices Fan",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 7
     },
 
@@ -388,7 +388,7 @@ ANSWERS = [
         "question_id": 6,
         "answer_text": "Настройте миграции Django: python manage.py makemigrations и python manage.py migrate.",
         "username": "Migration Helper",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 9
     },
     {
@@ -396,7 +396,7 @@ ANSWERS = [
         "question_id": 6,
         "answer_text": "Используйте django-extensions для отладки и разработки.",
         "username": "Django Tools",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 4
     },
 
@@ -406,7 +406,7 @@ ANSWERS = [
         "question_id": 7,
         "answer_text": "После установки создайте виртуальное окружение: python -m venv myenv.",
         "username": "Virtual Env Pro",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 6
     },
     {
@@ -414,7 +414,7 @@ ANSWERS = [
         "question_id": 7,
         "answer_text": "Убедитесь, что антивирус не блокирует установку Python.",
         "username": "Troubleshooter",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 3
     },
 
@@ -424,7 +424,7 @@ ANSWERS = [
         "question_id": 8,
         "answer_text": "Используйте sync.WaitGroup для ожидания завершения группы goroutine.",
         "username": "Concurrency Expert",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 12
     },
     {
@@ -432,7 +432,7 @@ ANSWERS = [
         "question_id": 8,
         "answer_text": "Настройте мониторинг с помощью Prometheus и Grafana.",
         "username": "Monitoring Guy",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 8
     },
 
@@ -442,7 +442,7 @@ ANSWERS = [
         "question_id": 9,
         "answer_text": "Для production используйте Gunicorn или uWSGI как WSGI сервер.",
         "username": "Deployment Pro",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 10
     },
     {
@@ -450,7 +450,7 @@ ANSWERS = [
         "question_id": 9,
         "answer_text": "Настройте кэширование с Redis или Memcached.",
         "username": "Performance Expert",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 7
     },
 
@@ -460,7 +460,7 @@ ANSWERS = [
         "question_id": 10,
         "answer_text": "Python 3.9+ имеет улучшенную поддержку Windows. Рекомендую последнюю версию.",
         "username": "Version Advisor",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 5
     },
 
@@ -470,7 +470,7 @@ ANSWERS = [
         "question_id": 11,
         "answer_text": "Используйте структурированное логирование с logrus или zerolog.",
         "username": "Logging Master",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 9
     },
     {
@@ -478,7 +478,7 @@ ANSWERS = [
         "question_id": 11,
         "answer_text": "Настройте health checks для каждого микросервиса.",
         "username": "Health Checker",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 6
     },
 
@@ -488,7 +488,7 @@ ANSWERS = [
         "question_id": 12,
         "answer_text": "Используйте django-debug-toolbar для отладки запросов к базе данных.",
         "username": "Debug Helper",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 8
     },
 
@@ -498,7 +498,7 @@ ANSWERS = [
         "question_id": 13,
         "answer_text": "Для разработки можно использовать IDLE, но лучше PyCharm или VS Code.",
         "username": "IDE Advisor",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 7
     },
     {
@@ -506,7 +506,7 @@ ANSWERS = [
         "question_id": 13,
         "answer_text": "Установите pip и научитесь управлять пакетами.",
         "username": "Package Manager",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 4
     },
 
@@ -516,7 +516,7 @@ ANSWERS = [
         "question_id": 14,
         "answer_text": "Используйте docker-compose для оркестрации микросервисов.",
         "username": "Docker Fan",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 11
     },
     {
@@ -524,7 +524,7 @@ ANSWERS = [
         "question_id": 14,
         "answer_text": "Настройте circuit breaker pattern для устойчивости системы.",
         "username": "Resilience Expert",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 8
     },
 
@@ -534,7 +534,7 @@ ANSWERS = [
         "question_id": 15,
         "answer_text": "Используйте django-admin для создания административной панели.",
         "username": "Admin Pro",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 6
     },
     {
@@ -542,7 +542,7 @@ ANSWERS = [
         "question_id": 15,
         "answer_text": "Настройте бэкапы базы данных на регулярной основе.",
         "username": "Backup Master",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 5
     },
 
@@ -552,7 +552,7 @@ ANSWERS = [
         "question_id": 16,
         "answer_text": "Проверьте совместимость версий Python и вашей ОС.",
         "username": "Compatibility Checker",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 3
     },
 
@@ -562,7 +562,7 @@ ANSWERS = [
         "question_id": 17,
         "answer_text": "Используйте interface в Go для создания абстракций между сервисами.",
         "username": "Go Architect",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 10
     },
     {
@@ -570,7 +570,7 @@ ANSWERS = [
         "question_id": 17,
         "answer_text": "Настройте rate limiting для защиты от DDoS атак.",
         "username": "Security Guard",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 7
     },
 
@@ -580,7 +580,7 @@ ANSWERS = [
         "question_id": 18,
         "answer_text": "Используйте django-cors-headers для настройки CORS если нужен фронтенд.",
         "username": "CORS Expert",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 6
     },
 
@@ -590,7 +590,7 @@ ANSWERS = [
         "question_id": 19,
         "answer_text": "После установки обновите pip: python -m pip install --upgrade pip.",
         "username": "Pip Updater",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 4
     },
     {
@@ -598,7 +598,7 @@ ANSWERS = [
         "question_id": 19,
         "answer_text": "Установите необходимые пакеты для вашего проекта через requirements.txt.",
         "username": "Requirements Helper",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 5
     },
 
@@ -608,7 +608,7 @@ ANSWERS = [
         "question_id": 20,
         "answer_text": "Используйте middleware для сквозной функциональности в микросервисах.",
         "username": "Middleware Master",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 9
     },
     {
@@ -616,7 +616,7 @@ ANSWERS = [
         "question_id": 20,
         "answer_text": "Настройте distributed tracing с Jaeger или Zipkin.",
         "username": "Tracing Expert",
-        "avatar": "/static/questions/img/anon.png",
+        "avatar": "/static/img/anon.png",
         "answer_rating": 11
     }
 ]
