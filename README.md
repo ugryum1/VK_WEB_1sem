@@ -6,7 +6,9 @@
 
 - Python 3.12.3
 - Django 5.2.7
+- PostgreSQL 15
 - Docker 🐳
+- psycopg2-binary
 
 ## Быстрый запуск
 
