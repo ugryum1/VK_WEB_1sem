@@ -10,17 +10,36 @@
 - Docker 🐳
 - psycopg2-binary
 
+## Архитектура проекта
+
+![Диаграмма архитектуры](diagram/diagram.png)
+
 ## Быстрый запуск
 
 ### Через Docker Compose:
 
 ```bash
 # Сборка и запуск
-docker compose up --build
-
-# В фоновом режиме
-docker compose up -d
+docker compose up -d --build
 
 # Остановка
 docker compose down
+
+# Просмотр логов
+docker compose logs -f web
+
+# Другие полезные команды:
+# Выполнение миграций
+docker-compose exec web python manage.py migrate
+
+# Заполнение базы данных
+docker-compose exec web python manage.py fill_db 10
+
+# Создание суперпользователя
+docker-compose exec web python manage.py createsuperuser
 ```
+
+## Доступ к приложению
+
+- Веб-приложение: [http://localhost:8000](http://localhost:8000)
+- Админ-панель: [http://localhost:8000/admin](http://localhost:8000/admin)
