@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
     <title>QuickAnswer</title>
-    <link rel="stylesheet" href="static/style.css">
+    {% endblock %}
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="container">
         <header class="header">
             <div class="header-content">
-                <a href="index.html" class="logo-link">
+                <a href="{% url 'questions:main_page' %}" class="logo-link">
                     <div class="logo">
                         <h1>QuickAnswer</h1>
                     </div>
@@ -21,58 +23,43 @@
                     <button class="search-btn">Найти</button>
                 </div>
 
-                <a class="ask-btn" href='ask.html'>Спросить!</a>
+                <a class="ask-btn" href="{% url 'questions:ask' %}">Спросить!</a>
 
+                {% block header %}
                 <div class="user-menu">
                     <div class="user-info">
                         <div class="avatar">
-                            <img src="images/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
+                            <img src="/static/img/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
                         </div>
                         <div class="user-details">
-                            <span class="username" onclick="location.href='settings.html'">Dr. Pepsi</span>
+                            <span class="username">
+                                <a href="{% url 'core:settings' %}" class="username">Dr. Pepsi</a>
+                            </span>
                             <div class="user-actions">
-                                <a class="settings-btn" onclick="location.href='settings.html'">Настройки</a>
-                                <a class="logout-btn">Выйти</a>
+                                <a class="settings-btn" href="{% url 'core:settings' %}">Настройки</a>
+                                <a class="logout-btn" href="{% url 'core:login' %}">Выйти</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endblock %}
             </div>
         </header>
 
         <div class="main-content">
             <main class="content">
+                {% block content %}
+                {% endblock %}
             </main>
 
             <aside class="sidebar">
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">Популярные теги</h3>
-                    <div class="tags">
-                        <a href="#" class="tag">Python</a>
-                        <a href="#" class="tag">PostgreSQL</a>
-                        <a href="#" class="tag">Django</a>
-                        <a href="#" class="tag">VK</a>
-                        <a href="#" class="tag">Mail.ru</a>
-                        <a href="#" class="tag">Go</a>
-                        <a href="#" class="tag">C++</a>
-                    </div>
+                <div class="sidebar-section" id="top_tags">
+                    {% include "questions/includes/top_tags.html" with tags=top_tags %}
                 </div>
 
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">Лучшие пользователи</h3>
+                <div class="sidebar-section" id="top_users">
                     <div class="top-users">
-                        <div class="user-item">
-                            <span class="user-rank">1</span>
-                            <span class="user-name">Dr. Pepsi</span>
-                        </div>
-                        <div class="user-item">
-                            <span class="user-rank">2</span>
-                            <span class="user-name">Secret User</span>
-                        </div>
-                        <div class="user-item">
-                            <span class="user-rank">3</span>
-                            <span class="user-name">Carte Blanche</span>
-                        </div>
+                        {% include "questions/includes/top_users.html" with users=top_users %}
                     </div>
                 </div>
             </aside>
@@ -89,9 +76,9 @@
                     <div class="footer-section">
                         <h3 class="footer-title">Разделы</h3>
                         <ul class="footer-links">
-                            <li><a href="index.html" onclick="location.href='index.html'">Главная</a></li>
-                            <li><a href="#">Популярные вопросы</a></li>
-                            <li><a href="ask.html" onclick="location.href='ask.html'">Задать вопрос</a></li>
+                            <li><a href="{% url 'questions:main_page' %}">Главная</a></li>
+                            <li><a href="{% url 'questions:hot' %}">Популярные вопросы</a></li>
+                            <li><a href="{% url 'questions:ask' %}">Задать вопрос</a></li>
                         </ul>
                     </div>
 
@@ -105,10 +92,10 @@
                     </div>
 
                     <div class="footer-section">
-                        <h3 class="footer-title">Сообщество</h4>
+                        <h3 class="footer-title">Сообщество</h3>
                         <ul class="footer-links">
-                            <li><a href="#">Лучшие пользователи</a></li>
-                            <li><a href="#">Популярные теги</a></li>
+                            <li><a href="#top_users">Лучшие пользователи</a></li>
+                            <li><a href="#top_tags">Популярные теги</a></li>
                         </ul>
                     </div>
 

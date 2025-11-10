@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="question-container">
+    <div class="main-header">
+        <h2>Новые вопросы</h2>
+        <a href="{% url 'questions:hot' %}" class="hot-questions">Популярные вопросы</a>
+    </div>
+
+    <div class="questions">
+        {% for q in questions %}
+            {% include "questions/includes/print_question.html" %}
+        {% endfor %}
+    </div>
+
+    {% include "questions/includes/pagination.html" with page=questions %}
+</div>
+{% endblock %}

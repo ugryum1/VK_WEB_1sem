@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Вопросы по тегу</title>
+{% endblock %}
+
+{% block content %}
+<div class="question-container">
+    <div class="main-header">
+        <h2>Тег: {{ tag.tag }}</h2>
+    </div>
+
+    <div class="questions">
+        {% for q in questions %}
+            {% include "questions/includes/print_question.html" %}
+        {% endfor %}
+    </div>
+
+    {% include "questions/includes/pagination.html" with page=questions %}
+</div>
+{% endblock %}

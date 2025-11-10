@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Вопрос</title>
+{% endblock %}
+
+{% block header %}
+<div class="user-menu">
+    <a class="log-in-btn" href="{% url 'core:login' %}">Войти</a>
+    <a class="register-btn" href="{% url 'core:signup' %}">Зарегистрироваться</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="question-page">
+    <div class="questions">
+        {% include "questions/includes/print_question.html" with q=question %}
+    </div>
+
+    <div class="answers-section">
+        <h2 class="answers-title">Ответы ({{ answers.paginator.count }})</h2>
+
+        {% for a in answers %}
+        <div class="question answer">
+            <div class="question-left">
+                <div class="user-avatar">
+                    <img src="{{ a.avatar }}" alt="Аватар" class="avatar-img">
+                </div>
+                <span class="username-question">{{ a.username }}</span>
+                <div class="vote-buttons">
+                    <button class="vote-up">↑</button>
+                    <span class="rating">{{ a.answer_rating }}</span>
+                    <button class="vote-down">↓</button>
+                </div>
+            </div>
+
+            <div class="question-right">
+                <div class="question-text">
+                    <p>{{ a.answer_text }}</p>
+                </div>
+                <button class="answer-action">Ответ подходит</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% include "questions/includes/pagination.html" with page=answers %}
+
+    <div class="answer-form-section">
+        <h3 class="answer-form-title">Ваш ответ</h3>
+        <form class="answer-form">
+            <textarea class="answer-textarea" placeholder="Введите ваш ответ здесь..." rows="6" required></textarea>
+            <div class="form-error">Заполните это поле</div>
+            <button type="submit" class="submit-answer-btn">Отправить ответ</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
