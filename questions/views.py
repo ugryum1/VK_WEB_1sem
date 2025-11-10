@@ -1,8 +1,21 @@
 from django.shortcuts import render
-from django.shortcuts import redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
 from fictional_data import TOPUSERS, TAGS, QUESTIONS, ANSWERS
+
+def do_pagination(request, count_per_page, data):
+    """ Вспомогательная функция для пагинации """
+    paginator = Paginator(data, count_per_page)
+
+    page_number = request.GET.get('page')
+    try:
+        page_data = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_data = paginator.page(1)
+    except EmptyPage:
+        page_data = paginator.page(paginator.num_pages)
+
+    return page_data
 
 
 def base(request, *args, **kwargs):
@@ -10,16 +23,7 @@ def base(request, *args, **kwargs):
 
 
 def index(request, *args, **kwargs):
-    questions_per_page = 3
-    paginator = Paginator(QUESTIONS, questions_per_page)
-
-    page_number = request.GET.get('page')
-    try:
-        page_questions = paginator.page(page_number)
-    except PageNotAnInteger:
-        page_questions = paginator.page(1)
-    except EmptyPage:
-        page_questions = paginator.page(paginator.num_pages)
+    page_questions = do_pagination(request, 3, QUESTIONS)
 
     return render(request, 'questions/index.html',
                   context={"questions": page_questions, "top_users": TOPUSERS, "top_tags": TAGS})
@@ -40,16 +44,7 @@ def question(request, question_id, *args, **kwargs):
         if answer.get("question_id") == question_id:
             question_answers.append(answer)
 
-    answers_per_page = 2
-    paginator = Paginator(question_answers, answers_per_page)
-
-    page_number = request.GET.get('page')
-    try:
-        paginated_answers = paginator.page(page_number)
-    except PageNotAnInteger:
-        paginated_answers = paginator.page(1)
-    except EmptyPage:
-        paginated_answers = paginator.page(paginator.num_pages)
+    paginated_answers = do_pagination(request, 2, question_answers)
 
     return render(request, 'questions/question.html',
                   context={"question": current_question, "answers": paginated_answers,
@@ -76,16 +71,7 @@ def tag(request, tag_id, *args, **kwargs):
         if current_tag["tag"] in question["tags"]:
             tag_questions.append(question)
 
-    questions_per_page = 3
-    paginator = Paginator(tag_questions, questions_per_page)
-
-    page_number = request.GET.get('page')
-    try:
-        page_questions = paginator.page(page_number)
-    except PageNotAnInteger:
-        page_questions = paginator.page(1)
-    except EmptyPage:
-        page_questions = paginator.page(paginator.num_pages)
+    page_questions = do_pagination(request, 3, tag_questions)
 
     return render(request, 'questions/tag.html',
                   context={"tag": current_tag, "questions": page_questions,
@@ -93,16 +79,7 @@ def tag(request, tag_id, *args, **kwargs):
 
 
 def top(request, *args, **kwargs):
-    questions_per_page = 3
-    paginator = Paginator(sorted(QUESTIONS, key=lambda x: x["question_rating"])[::-1], questions_per_page)
-
-    page_number = request.GET.get('page')
-    try:
-        page_questions = paginator.page(page_number)
-    except PageNotAnInteger:
-        page_questions = paginator.page(1)
-    except EmptyPage:
-        page_questions = paginator.page(paginator.num_pages)
+    page_questions = do_pagination(request, 3, sorted(QUESTIONS, key=lambda x: x["question_rating"])[::-1])
 
     return render(request, 'questions/top_questions.html',
                   context={"questions": page_questions, "top_users": TOPUSERS, "top_tags": TAGS})
