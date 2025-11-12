@@ -19,30 +19,37 @@
 ### Перед запуском необходимо создать .env на основе примера
 
 ```bash
+cd VK_WEB_1sem
+
+# При необходимости переключиться на нужную ветку
+# git checkout <имя ветки>
+
+# Создаём .env
 cp .env.example .env
 ```
 
-## Если после изменения .env приложение не подключается к БД, контейнеры нужно пересоздать
-
-```bash
-docker-compose down -v
-docker-compose up -d --build
-
-# Заполнение базы данных
-docker-compose exec web python manage.py fill_db 100
-```
-
-### Через Docker Compose:
+### Запуск через Docker Compose:
 
 ```bash
 # Сборка и запуск
 docker compose up -d --build
+
+# Заполнение базы данных
+docker-compose exec web python manage.py fill_db 100
 
 # Остановка
 docker compose down
 
 # Просмотр логов
 docker compose logs -f web
+```
+
+### Если после изменения .env приложение не подключается к БД, контейнеры нужно пересоздать
+
+```bash
+docker-compose down -v
+docker-compose up -d --build
+```
 
 # Другие полезные команды:
 # Выполнение миграций
