@@ -16,6 +16,22 @@
 
 ## Быстрый запуск
 
+### Перед запуском необходимо создать .env на основе примера
+
+```bash
+cp .env.example .env
+```
+
+## Если после изменения .env приложение не подключается к БД, контейнеры нужно пересоздать
+
+```bash
+docker-compose down -v
+docker-compose up -d --build
+
+# Заполнение базы данных
+docker-compose exec web python manage.py fill_db 100
+```
+
 ### Через Docker Compose:
 
 ```bash
@@ -33,7 +49,7 @@ docker compose logs -f web
 docker-compose exec web python manage.py migrate
 
 # Заполнение базы данных
-docker-compose exec web python manage.py fill_db 10
+docker-compose exec web python manage.py fill_db 100
 
 # Создание суперпользователя
 docker-compose exec web python manage.py createsuperuser
