@@ -51,7 +51,8 @@ docker-compose down -v
 docker-compose up -d --build
 ```
 
-# Другие полезные команды:
+### Другие полезные команды
+```Bash
 # Выполнение миграций
 docker-compose exec web python manage.py migrate
 
