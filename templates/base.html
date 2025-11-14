@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -6,7 +8,7 @@
     {% block title %}
     <title>QuickAnswer</title>
     {% endblock %}
-    <link rel="stylesheet" href="/static/css/style.css">
+     <link rel="stylesheet" href="{% static '/css/style.css' %}">
 </head>
 <body>
     <div class="container">
@@ -29,7 +31,7 @@
                 <div class="user-menu">
                     <div class="user-info">
                         <div class="avatar">
-                            <img src="/static/img/Dr_Pepsi.png" alt="Аватар" class="avatar-img">
+                            <img src="{% static '/img/Dr_Pepsi.png' %}" alt="Аватар" class="avatar-img">
                         </div>
                         <div class="user-details">
                             <span class="username">
