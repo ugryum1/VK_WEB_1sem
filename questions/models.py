@@ -36,7 +36,8 @@ class QuestionTag(models.Model):
         verbose_name = "Тег вопроса"
         verbose_name_plural = "Теги вопросов"
 
-    question = models.ForeignKey(Question, verbose_name="Вопрос", on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, verbose_name="Вопрос", on_delete=models.CASCADE,
+                                 related_name="question_tags")
     tag = models.ForeignKey(Tag, verbose_name="Тег", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

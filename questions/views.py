@@ -34,14 +34,18 @@ def get_top_data():
     return top_users, top_tags
 
 
+'''
 def base(request, *args, **kwargs):
     top_users, top_tags = get_top_data()
     return render(request, context={"top_users": top_users, "top_tags": top_tags})
+'''
 
 
 def index(request, *args, **kwargs):
     top_users, top_tags = get_top_data()
-    questions_list = Question.objects.all().select_related('user')
+    questions_list = Question.objects.all().select_related('user').prefetch_related(
+        'question_tags__tag'
+    ).annotate(answers_count=Count('answers'))
 
     page_questions = do_pagination(request, 3, questions_list)
 
@@ -53,7 +57,11 @@ def question(request, question_id, *args, **kwargs):
     top_users, top_tags = get_top_data()
 
     try:
-        current_question = Question.objects.select_related('user').get(id=question_id)
+        current_question = Question.objects.select_related('user').prefetch_related(
+            'question_tags__tag'
+        ).annotate(
+            answers_count=Count('answers')
+        ).get(id=question_id)
     except:
         raise Http404("Вопрос не найден")
 
@@ -80,8 +88,13 @@ def tag(request, tag_id, *args, **kwargs):
     except Tag.DoesNotExist:
         raise Http404("Тег не найден")
 
-    question_ids = QuestionTag.objects.filter(tag=current_tag).values_list('question_id', flat=True)
-    tag_questions = Question.objects.filter(id__in=question_ids).select_related('user').order_by('-rating')
+    tag_questions = Question.objects.filter(
+        question_tags__tag=current_tag
+    ).select_related('user').prefetch_related(
+        'question_tags__tag'
+    ).annotate(
+        answers_count=Count('answers')
+    ).order_by('-rating').distinct()
 
     page_questions = do_pagination(request, 3, tag_questions)
 
@@ -93,7 +106,9 @@ def tag(request, tag_id, *args, **kwargs):
 def top(request, *args, **kwargs):
     top_users, top_tags = get_top_data()
 
-    questions_list = Question.objects.all().select_related('user').order_by('-rating')
+    questions_list = Question.objects.all().select_related('user').prefetch_related(
+        'question_tags__tag'
+    ).annotate(answers_count=Count('answers')).order_by('-rating')
 
     page_questions = do_pagination(request, 3, questions_list)
 

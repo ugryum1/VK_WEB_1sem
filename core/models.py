@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE, unique=True)
 
     def __str__(self):
         return f"#{self.id}: {self.name}"
