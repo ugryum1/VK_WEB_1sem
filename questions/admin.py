@@ -1,5 +1,5 @@
 from django.contrib import admin
-from questions.models import Tag, Question, QuestionTag, Answer, AnswerTag, Like
+from questions.models import Tag, Question, QuestionTag, Answer, AnswerTag, QuestionLike, AnswerLike
 
 
 @admin.register(Tag)
@@ -52,20 +52,31 @@ class AnswerTagAdmin(admin.ModelAdmin):
     raw_id_fields = ['answer', 'tag']
 
 
-@admin.register(Like)
-class LikeAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'get_target', 'weight', 'created_at']
+@admin.register(QuestionLike)
+class QuestionLikeAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'get_question_title', 'weight']
     list_display_links = ['id', 'user']
-    list_filter = ['weight', 'created_at', 'updated_at']
-    raw_id_fields = ['user', 'question', 'answer']
+    list_filter = ['weight']
+    raw_id_fields = ['user', 'question']
+    search_fields = ['question__title', 'user__username']
 
-    def get_target(self, obj):
-        """Показывает на что поставлен лайк/дизлайк"""
-        if obj.question:
-            return f"Вопрос: {obj.question.title}"
-        elif obj.answer:
-            question_title = obj.answer.question.title
-            short_title = question_title[:50] + '...' if len(question_title) > 50 else question_title
-            return f"Ответ на: {short_title}"
-        return "Неизвестно"
-    get_target.short_description = 'Объект'
+    def get_question_title(self, obj):
+        """Показывает заголовок вопроса"""
+        return obj.question.title
+    get_question_title.short_description = 'Вопрос'
+
+
+@admin.register(AnswerLike)
+class AnswerLikeAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'get_answer_info', 'weight']
+    list_display_links = ['id', 'user']
+    list_filter = ['weight']
+    raw_id_fields = ['user', 'answer']
+    search_fields = ['answer__question__title', 'user__username']
+
+    def get_answer_info(self, obj):
+        """Показывает информацию об ответе и вопросе"""
+        question_title = obj.answer.question.title
+        short_title = question_title[:50] + '...' if len(question_title) > 50 else question_title
+        return f"Ответ на: {short_title}"
+    get_answer_info.short_description = 'Ответ'

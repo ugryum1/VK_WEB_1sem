@@ -3,14 +3,16 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.db import transaction
 from core.models import UserProfile
-from questions.models import Tag, Question, QuestionTag, Answer, AnswerTag, Like
+from questions.models import Tag, Question, QuestionTag, Answer, AnswerTag, QuestionLike, AnswerLike
 
 
 class Command(BaseCommand):
     help = 'Заполняет базу данных тестовыми данными'
 
+
     def add_arguments(self, parser):
         parser.add_argument('ratio', type=int, help='Коэффициент заполнения')
+
 
     def handle(self, *args, **options):
         ratio = options['ratio']
@@ -23,11 +25,14 @@ class Command(BaseCommand):
             tags = self.create_tags(ratio)
             questions = self.create_questions(ratio * 10, users, tags)
             answers = self.create_answers(ratio * 100, users, questions)
-            self.create_likes(ratio * 200, users, questions, answers)
+            self.create_question_likes(ratio * 100, users, questions)
+            self.create_answer_likes(ratio * 100, users, answers)
+
 
     def clear_database(self):
         """Очищает все данные из базы"""
-        Like.objects.all().delete()
+        QuestionLike.objects.all().delete()
+        AnswerLike.objects.all().delete()
         AnswerTag.objects.all().delete()
         Answer.objects.all().delete()
         QuestionTag.objects.all().delete()
@@ -35,6 +40,7 @@ class Command(BaseCommand):
         Tag.objects.all().delete()
         UserProfile.objects.all().delete()
         User.objects.filter(is_superuser=False).delete()
+
 
     def create_users(self, count):
         """Создает пользователей и их профили"""
@@ -69,6 +75,7 @@ class Command(BaseCommand):
         UserProfile.objects.bulk_create(user_profiles)
         return created_users
 
+
     def create_tags(self, count):
         """Создает теги"""
         tags = []
@@ -78,6 +85,7 @@ class Command(BaseCommand):
 
         Tag.objects.bulk_create(tags)
         return list(Tag.objects.all())
+
 
     def create_questions(self, count, users, tags):
         """Создает вопросы и связывает их с тегами"""
@@ -107,6 +115,7 @@ class Command(BaseCommand):
 
         QuestionTag.objects.bulk_create(question_tags)
         return created_questions
+
 
     def create_answers(self, count, users, questions):
         """Создает ответы на вопросы"""
@@ -144,45 +153,66 @@ class Command(BaseCommand):
 
         return created_answers
 
-    def create_likes(self, count, users, questions, answers):
-        """Создает лайки/дизлайки с проверкой уникальности"""
+
+    def create_question_likes(self, count, users, questions):
+        """Создает лайки/дизлайки для вопросов"""
         likes = []
-        used_question_pairs = set()
-        used_answer_pairs = set()
+        used_pairs = set()
 
         created_likes = 0
         attempts = 0
-        max_attempts = count * 10
+        max_attempts = count * 5
 
         while created_likes < count and attempts < max_attempts:
             user = random.choice(users)
+            question = random.choice(questions)
             weight = random.choice([1, -1])
 
-            if random.random() < 0.7 and questions:
-                question = random.choice(questions)
-                pair = (user.id, question.id)
+            pair = (user.id, question.id)
 
-                if pair not in used_question_pairs:
-                    like = Like(user=user, question=question, weight=weight)
-                    likes.append(like)
-                    used_question_pairs.add(pair)
-                    created_likes += 1
-
-            elif answers:
-                answer = random.choice(answers)
-                pair = (user.id, answer.id)
-
-                if pair not in used_answer_pairs:
-                    like = Like(user=user, answer=answer, weight=weight)
-                    likes.append(like)
-                    used_answer_pairs.add(pair)
-                    created_likes += 1
+            if pair not in used_pairs:
+                like = QuestionLike(user=user, question=question, weight=weight)
+                likes.append(like)
+                used_pairs.add(pair)
+                created_likes += 1
 
             attempts += 1
 
-            if len(likes) >= 1000:
-                Like.objects.bulk_create(likes)
+            if len(likes) >= 500:
+                QuestionLike.objects.bulk_create(likes)
                 likes = []
 
         if likes:
-            Like.objects.bulk_create(likes)
+            QuestionLike.objects.bulk_create(likes)
+
+
+    def create_answer_likes(self, count, users, answers):
+        """Создает лайки/дизлайки для ответов"""
+        likes = []
+        used_pairs = set()
+
+        created_likes = 0
+        attempts = 0
+        max_attempts = count * 5
+
+        while created_likes < count and attempts < max_attempts:
+            user = random.choice(users)
+            answer = random.choice(answers)
+            weight = random.choice([1, -1])
+
+            pair = (user.id, answer.id)
+
+            if pair not in used_pairs:
+                like = AnswerLike(user=user, answer=answer, weight=weight)
+                likes.append(like)
+                used_pairs.add(pair)
+                created_likes += 1
+
+            attempts += 1
+
+            if len(likes) >= 500:
+                AnswerLike.objects.bulk_create(likes)
+                likes = []
+
+        if likes:
+            AnswerLike.objects.bulk_create(likes)
