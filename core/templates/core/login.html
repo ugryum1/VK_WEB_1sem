@@ -15,14 +15,6 @@
     </a>
     <h2 class="auth-title">Вход в аккаунт</h2>
 
-    {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="form-error">{{ message }}</div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
     <div class="form-group">
         <label for="login-username" class="form-label">Логин</label>
         <input type="text" id="login-username"
@@ -36,6 +28,14 @@
                class="form-input" placeholder="Введите пароль"
                name="password" required minlength="1">
     </div>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="form-error">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <button type="submit" class="auth-btn">Войти</button>
 
