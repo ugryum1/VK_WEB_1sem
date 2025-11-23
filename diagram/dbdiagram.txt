@@ -16,7 +16,7 @@ Table userprofile {
   id integer [primary key, not null]
   avatar varchar
   name varchar [not null]
-  user_id integer [not null]
+  user_id integer [not null, unique]
   created_at timestamp
   updated_at timestamp
 }
@@ -65,24 +65,45 @@ Table answertag {
   updated_at timestamp
 }
 
-Table like {
+Table questionlike {
   id integer [primary key, not null]
-  weight integer
+  weight integer [not null]
   user_id integer [not null]
-  question_id integer
-  answer_id integer
+  question_id integer [not null]
   created_at timestamp
   updated_at timestamp
+
+  indexes {
+    (user_id, question_id) [unique, name: 'unique_user_question_like']
+  }
 }
 
-Ref: user.id < userprofile.user_id
-Ref: user.id < question.user_id
-Ref: user.id < answer.user_id
-Ref: question.id < answer.question_id
-Ref: question.id < questiontag.question_id
-Ref: tag.id < questiontag.tag_id
-Ref: answer.id < answertag.answer_id
-Ref: tag.id < answertag.tag_id
-Ref: user.id < like.user_id
-Ref: question.id < like.question_id
-Ref: answer.id < like.answer_id
+Table answerlike {
+  id integer [primary key, not null]
+  weight integer [not null]
+  user_id integer [not null]
+  answer_id integer [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (user_id, answer_id) [unique, name: 'unique_user_answer_like']
+  }
+}
+
+// References
+Ref: user.id - userprofile.user_id
+Ref: user.id - question.user_id
+Ref: user.id - answer.user_id
+Ref: user.id - questionlike.user_id
+Ref: user.id - answerlike.user_id
+
+Ref: question.id - answer.question_id
+Ref: question.id - questiontag.question_id
+Ref: question.id - questionlike.question_id
+
+Ref: answer.id - answertag.answer_id
+Ref: answer.id - answerlike.answer_id
+
+Ref: tag.id - questiontag.tag_id
+Ref: tag.id - answertag.tag_id

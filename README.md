@@ -32,16 +32,16 @@ cp .env.example .env
 
 ```bash
 # Сборка и запуск
-docker compose up -d --build
+docker-compose up -d --build
 
 # Заполнение базы данных
 docker-compose exec web python manage.py fill_db 100
 
 # Остановка
-docker compose down
+docker-compose down
 
 # Просмотр логов
-docker compose logs -f web
+docker-compose logs -f web
 ```
 
 ### Если после изменения .env приложение не подключается к БД, контейнеры нужно пересоздать
