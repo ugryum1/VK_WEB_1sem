@@ -4,13 +4,6 @@
 <title>Вопрос</title>
 {% endblock %}
 
-{% block header %}
-<div class="user-menu">
-    <a class="log-in-btn" href="{% url 'core:login' %}">Войти</a>
-    <a class="register-btn" href="{% url 'core:signup' %}">Зарегистрироваться</a>
-</div>
-{% endblock %}
-
 {% block content %}
 <div class="question-page">
     <div class="questions">
