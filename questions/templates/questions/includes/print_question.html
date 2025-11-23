@@ -15,7 +15,7 @@
         <a href="{% url 'questions:question' q.id %}" class="question-title">{{ q.title }}</a>
         <p class="question-text">{{ q.description }}</p>
         <div class="question-footer">
-            <a href="{% url 'questions:question' q.id %}" class="answers-link">ответы ({{ q.answers.answers_count }})</a>
+            <a href="{% url 'questions:question' q.id %}" class="answers-link">ответы ({{ q.answers.count }})</a>
             <div class="tags">
                 <span class="tags-label">Теги:</span>
                 {% for question_tag in q.question_tags.all %}

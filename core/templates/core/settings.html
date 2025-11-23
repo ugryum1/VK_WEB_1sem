@@ -26,12 +26,28 @@
             <label class="form-label">Аватар</label>
             <div class="avatar-upload">
                 <div class="avatar-preview">
-                    <img src="{{ request.user.userprofile.avatar.url }}" alt="Текущий аватар" class="avatar-current">
+                    <img id="avatar-preview" src="{{ request.user.userprofile.avatar.url }}" alt="Текущий аватар" class="avatar-current">
                 </div>
                 <input type="file" id="avatar" class="avatar-input" accept="image/*" name="avatar">
                 <label for="avatar" class="avatar-btn">Выбрать изображение</label>
             </div>
         </div>
+
+        <script>
+        const avatarInput = document.getElementById('avatar');
+        const avatarPreview = document.getElementById('avatar-preview');
+
+        avatarInput.addEventListener('change', function(){
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    avatarPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        </script>
 
         <button type="submit" class="save-btn">Сохранить</button>
     </form>
