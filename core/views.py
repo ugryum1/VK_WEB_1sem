@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.db.models import Count
 from questions.models import Tag
 from django.contrib.auth.models import User
 
@@ -13,12 +12,7 @@ def register(request, *args, **kwargs):
 
 
 def settings(request, *args, **kwargs):
-    top_users = User.objects.annotate(
-        question_count=Count('question')
-    ).order_by('-question_count')[:3]
-
-    top_tags = Tag.objects.annotate(
-        question_count=Count('questiontag__question')
-    ).order_by('-question_count')[:7]
+    top_users = User.objects.top_users()
+    top_tags = Tag.objects.top_tags()
 
     return render(request, 'core/settings.html', context={"top_users": top_users, "top_tags": top_tags})

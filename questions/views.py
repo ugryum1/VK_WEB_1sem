@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
-from django.db.models import Count
-from .models import Question, Answer, Tag, QuestionTag, User
+from .models import Question, Answer, Tag, User
 from django.contrib.auth.models import User
 
 
