@@ -68,7 +68,7 @@ class Command(BaseCommand):
             profile = UserProfile(
                 user=user,
                 name=user.username,
-                avatar=f'avatar_{random.randint(1, 50)}.jpg'
+                avatar="avatars/anon.png"
             )
             user_profiles.append(profile)
 

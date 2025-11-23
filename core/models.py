@@ -1,5 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os
+
+
+def default_avatar():
+    return os.path.join('avatars', 'anon.png')
 
 
 class UserProfileManager(models.Manager):
@@ -16,8 +21,8 @@ class UserProfile(models.Model):
         verbose_name = "Профиль пользователя"
         verbose_name_plural = "Профили пользователя"
 
-    avatar = models.CharField(verbose_name="Аватар", max_length=255)
-    name = models.CharField(verbose_name="Имя пользователя", max_length=20)
+    avatar = models.ImageField(upload_to="avatars/", default=default_avatar)
+    name = models.CharField(verbose_name="Имя пользователя", max_length=20, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

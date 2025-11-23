@@ -18,13 +18,13 @@
     </div>
 
     <div class="answers-section">
-        <h2 class="answers-title">Ответы ({{ answers.paginator.answers_count }})</h2>
+        <h2 class="answers-title">Ответы ({{ answers.paginator.count }})</h2>
 
         {% for a in answers %}
         <div class="question answer">
             <div class="question-left">
                 <div class="user-avatar">
-                    <img src="{{ a.user.userprofile.avatar }}" alt="Аватар" class="avatar-img">
+                    <img src="{{ a.user.userprofile.avatar.url }}" alt="Аватар" class="avatar-img">
                 </div>
                 <span class="username-question">{{ a.user.username }}</span>
                 <div class="vote-buttons">
