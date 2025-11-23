@@ -28,22 +28,31 @@
                 <a class="ask-btn" href="{% url 'questions:ask' %}">Спросить!</a>
 
                 {% block header %}
-                <div class="user-menu">
-                    <div class="user-info">
-                        <div class="avatar">
-                            <img src="{% static '/img/Dr_Pepsi.png' %}" alt="Аватар" class="avatar-img">
-                        </div>
-                        <div class="user-details">
-                            <span class="username">
-                                <a href="{% url 'core:settings' %}" class="username">Dr. Pepsi</a>
-                            </span>
-                            <div class="user-actions">
-                                <a class="settings-btn" href="{% url 'core:settings' %}">Настройки</a>
-                                <a class="logout-btn" href="{% url 'core:login' %}">Выйти</a>
+                {% if request.user.is_authenticated %}
+                    <div class="user-menu">
+                        <div class="user-info">
+                            <div class="avatar">
+                                <img src="{{ request.user.userprofile.avatar }}" alt="Аватар" class="avatar-img">
+                            </div>
+                            <div class="user-details">
+                                <span class="username">
+                                    <a href="{% url 'core:settings' %}" class="username">
+                                        {{ request.user.userprofile.name }}
+                                    </a>
+                                </span>
+                                <div class="user-actions">
+                                    <a class="settings-btn" href="{% url 'core:settings' %}">Настройки</a>
+                                    <a class="logout-btn" href="{% url 'core:logout' %}">Выйти</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% else %}
+                    <div class="user-menu">
+                        <a class="log-in-btn" href="{% url 'core:login' %}">Войти</a>
+                        <a class="register-btn" href="{% url 'core:signup' %}">Зарегистрироваться</a>
+                    </div>
+                {% endif %}
                 {% endblock %}
             </div>
         </header>

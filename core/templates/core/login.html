@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block content %}
-<form class="auth-form">
+<form class="auth-form" method="post">
+    {% csrf_token %}
+
     <a href="{% url 'questions:main_page' %}" class="logo-link">
         <div class="logo2">
             <h1>QuickAnswer</h1>
@@ -13,16 +15,26 @@
     </a>
     <h2 class="auth-title">Вход в аккаунт</h2>
 
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="form-error">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="form-group">
         <label for="login-username" class="form-label">Логин</label>
-        <input type="text" id="login-username" class="form-input" placeholder="Введите логин" required>
-        <div class="form-error">Введите корректный email-адерс</div>
+        <input type="text" id="login-username"
+               class="form-input" placeholder="Введите логин"
+               name="username" required>
     </div>
 
     <div class="form-group">
         <label for="login-password" class="form-label">Пароль</label>
-        <input type="password" id="login-password" class="form-input" placeholder="Введите пароль" required minlength="8">
-        <div class="form-error">Минимальная длинна пароля - 8 символов (английские буквы, цифры, нижнее подчёркивание)</div>
+        <input type="password" id="login-password"
+               class="form-input" placeholder="Введите пароль"
+               name="password" required minlength="1">
     </div>
 
     <button type="submit" class="auth-btn">Войти</button>

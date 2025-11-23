@@ -172,7 +172,3 @@ class AnswerLike(models.Model):
     def __str__(self):
         action = "Лайк" if self.weight == LikeType.LIKE else "Дизлайк"
         return f"#{self.id}: {action} на ответ #{self.answer.id}"
-
-
-# Кастомный менеджер для User модели
-User.add_to_class('objects', UserManager())
