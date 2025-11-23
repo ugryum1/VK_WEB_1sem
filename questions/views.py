@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
 from .models import Question, Answer, Tag, User
+from core.models import UserProfile
 from django.contrib.auth.models import User
 
 
@@ -22,7 +23,7 @@ def do_pagination(request, count_per_page, data):
 
 def get_top_data():
     """ Вспомогательная функция для получения топ данных """
-    top_users = User.objects.top_users()
+    top_users = UserProfile.objects.top_users()
     top_tags = Tag.objects.top_tags()
 
     return top_users, top_tags
