@@ -2,7 +2,51 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class QuestionManager(models.Manager):
+    # вопросы с пользователем, тегами и количеством ответов
+    def with_related_data(self):
+        return self.get_queryset().select_related('user').prefetch_related(
+            'question_tags__tag'
+        ).annotate(
+            answers_count=models.Count('answers')
+        )
+
+
+    # лучшие вопросы по рейтингу
+    def top_questions(self):
+        return self.with_related_data().order_by('-rating')
+
+
+    # вопросы по тегу
+    def by_tag(self, tag):
+        return self.with_related_data().filter(question_tags__tag=tag).distinct()
+
+
+class TagManager(models.Manager):
+    # топ тегов
+    def top_tags(self):
+        return self.get_queryset().annotate(
+            question_count=models.Count('questiontag__question')
+        ).order_by('-question_count')[:7]
+
+
+class AnswerManager(models.Manager):
+    # ответы для конкретного вопроса
+    def for_question(self, question):
+        return self.filter(question=question).select_related('user').order_by('-rating')
+
+
+class UserManager(models.Manager):
+    # топ пользователей
+    def top_users(self):
+        return self.get_queryset().annotate(
+            question_count=models.Count('question')
+        ).order_by('-question_count')[:3]
+
+
 class Tag(models.Model):
+    objects = TagManager()
+
     class Meta:
         verbose_name = "Тег"
         verbose_name_plural = "Теги"
@@ -16,6 +60,8 @@ class Tag(models.Model):
 
 
 class Question(models.Model):
+    objects = QuestionManager()
+
     class Meta:
         verbose_name = "Вопрос"
         verbose_name_plural = "Вопросы"
@@ -47,6 +93,8 @@ class QuestionTag(models.Model):
 
 
 class Answer(models.Model):
+    objects = AnswerManager()
+
     class Meta:
         verbose_name = "Ответ"
         verbose_name_plural = "Ответы"
@@ -114,3 +162,7 @@ class Like(models.Model):
         target = self.question.title if self.question else self.answer.question.title
         action = "Лайк" if self.weight == 1 else "Дизлайк"
         return f"#{self.id}: {action} на '{target}'"
+
+
+# кастомный менеджер для User модели
+User.add_to_class('objects', UserManager())

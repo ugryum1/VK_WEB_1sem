@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import Http404
 from django.db.models import Count
-from .models import Question, Answer, Tag, QuestionTag
+from .models import Question, Answer, Tag, QuestionTag, User
 from django.contrib.auth.models import User
 
 
@@ -23,29 +23,15 @@ def do_pagination(request, count_per_page, data):
 
 def get_top_data():
     """ Вспомогательная функция для получения топ данных """
-    top_users = User.objects.annotate(
-        question_count=Count('question')
-    ).order_by('-question_count')[:3]
-
-    top_tags = Tag.objects.annotate(
-        question_count=Count('questiontag__question')
-    ).order_by('-question_count')[:7]
+    top_users = User.objects.top_users()
+    top_tags = Tag.objects.top_tags()
 
     return top_users, top_tags
 
 
-'''
-def base(request, *args, **kwargs):
-    top_users, top_tags = get_top_data()
-    return render(request, context={"top_users": top_users, "top_tags": top_tags})
-'''
-
-
 def index(request, *args, **kwargs):
     top_users, top_tags = get_top_data()
-    questions_list = Question.objects.all().select_related('user').prefetch_related(
-        'question_tags__tag'
-    ).annotate(answers_count=Count('answers'))
+    questions_list = Question.objects.with_related_data()
 
     page_questions = do_pagination(request, 3, questions_list)
 
@@ -57,15 +43,11 @@ def question(request, question_id, *args, **kwargs):
     top_users, top_tags = get_top_data()
 
     try:
-        current_question = Question.objects.select_related('user').prefetch_related(
-            'question_tags__tag'
-        ).annotate(
-            answers_count=Count('answers')
-        ).get(id=question_id)
+        current_question = Question.objects.with_related_data().get(id=question_id)
     except:
         raise Http404("Вопрос не найден")
 
-    question_answers = Answer.objects.filter(question=current_question).select_related('user').order_by('-rating')
+    question_answers = Answer.objects.for_question(current_question)
 
     paginated_answers = do_pagination(request, 2, question_answers)
 
@@ -88,14 +70,7 @@ def tag(request, tag_id, *args, **kwargs):
     except Tag.DoesNotExist:
         raise Http404("Тег не найден")
 
-    tag_questions = Question.objects.filter(
-        question_tags__tag=current_tag
-    ).select_related('user').prefetch_related(
-        'question_tags__tag'
-    ).annotate(
-        answers_count=Count('answers')
-    ).order_by('-rating').distinct()
-
+    tag_questions = Question.objects.by_tag(current_tag)
     page_questions = do_pagination(request, 3, tag_questions)
 
     return render(request, 'questions/tag.html',
@@ -106,9 +81,7 @@ def tag(request, tag_id, *args, **kwargs):
 def top(request, *args, **kwargs):
     top_users, top_tags = get_top_data()
 
-    questions_list = Question.objects.all().select_related('user').prefetch_related(
-        'question_tags__tag'
-    ).annotate(answers_count=Count('answers')).order_by('-rating')
+    questions_list = Question.objects.top_questions()
 
     page_questions = do_pagination(request, 3, questions_list)
 
