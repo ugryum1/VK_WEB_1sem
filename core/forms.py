@@ -24,6 +24,22 @@ class LoginForm(forms.Form):
     )
 
 
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get("email")
+        password = cleaned_data.get("password")
+
+        if email and password:
+            try:
+                user_obj = User.objects.get(email=email)
+                if not user_obj.check_password(password):
+                    raise ValidationError("Неверный email или пароль")
+            except User.DoesNotExist:
+                raise ValidationError("Неверный email или пароль")
+
+        return cleaned_data
+
+
 class RegisterForm(forms.Form):
     email = forms.EmailField(
         label="Логин",

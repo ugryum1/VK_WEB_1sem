@@ -13,20 +13,11 @@ def login(request, *args, **kwargs):
         form = LoginForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
-            password = form.cleaned_data["password"]
-
-            try:
-                user_obj = User.objects.get(email=email)
-                user = authenticate(request, username=user_obj.username, password=password)
-            except User.DoesNotExist:
-                user = None
-
-            if user is not None:
-                auth_login(request, user)
-                return redirect("questions:main_page")
-            else:
-                messages.error(request, "Неверный email или пароль")
-                return render(request, "core/login.html", context={'form': form})
+            user_obj = User.objects.get(email=email)
+            auth_login(request, user_obj)
+            return redirect("questions:main_page")
+        else:
+            return render(request, "core/login.html", context={'form': form})
     else:
         form = LoginForm()
 
