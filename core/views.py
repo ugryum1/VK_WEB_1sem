@@ -4,23 +4,33 @@ from .models import UserProfile
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .forms import LoginForm
 import re
 
 
 def login(request, *args, **kwargs):
     if request.method == "POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
 
-        user = authenticate(request, username=email, password=password)
+            try:
+                user_obj = User.objects.get(email=email)
+                user = authenticate(request, username=user_obj.username, password=password)
+            except User.DoesNotExist:
+                user = None
 
-        if user is not None:
-            auth_login(request, user)
-            return redirect("questions:main_page")
-        else:
-            messages.error(request, "Неверный email или пароль")
+            if user is not None:
+                auth_login(request, user)
+                return redirect("questions:main_page")
+            else:
+                messages.error(request, "Неверный email или пароль")
+                return render(request, "core/login.html", context={'form': form})
+    else:
+        form = LoginForm()
 
-    return render(request, "core/login.html")
+    return render(request, "core/login.html", context={'form': form})
 
 
 def logout_view(request):

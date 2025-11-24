@@ -16,18 +16,18 @@
     <h2 class="auth-title">Вход в аккаунт</h2>
 
     <div class="form-group">
-        <label for="login-username" class="form-label">Логин</label>
-        <input type="text" id="login-username"
+        <label for="login-email" class="form-label">Логин</label>
+        <input type="email" id="login-email"
                class="form-input" placeholder="Введите email"
-               name="email" value="{{ request.POST.email|default:'' }}" required>
+               name="email" value="{{ form.email.value|default:'' }}" required>
     </div>
 
     <div class="form-group">
         <label for="login-password" class="form-label">Пароль</label>
         <input type="password" id="login-password"
                class="form-input" placeholder="Введите пароль"
-               name="password" required minlength="1"
-               value="{{ request.POST.password|default:'' }}">
+               name="password" required
+               value="{{ form.password.value|default:'' }}">
     </div>
 
     {% if messages %}
