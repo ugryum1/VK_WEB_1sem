@@ -89,7 +89,7 @@ class QuestionTag(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"#{self.id}: {self.question.title} - {self.tag.title}"
+        return f"Тег #{self.tag_id} к вопросу #{self.question_id}"
 
 
 class Answer(models.Model):
@@ -108,7 +108,7 @@ class Answer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"#{self.id}: Ответ на '{self.question.title}'"
+        return f"#{self.id}: Ответ на вопрос #{self.question_id}"
 
 
 class AnswerTag(models.Model):
@@ -122,7 +122,7 @@ class AnswerTag(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"#{self.id}: {self.answer.question.title} - {self.tag.title}"
+        return f"Тег #{self.tag_id} к ответу #{self.answer_id}"
 
 
 class LikeType(models.IntegerChoices):
@@ -149,7 +149,7 @@ class QuestionLike(models.Model):
 
     def __str__(self):
         action = "Лайк" if self.weight == LikeType.LIKE else "Дизлайк"
-        return f"#{self.id}: {action} на '{self.question.title}'"
+        return f"#{self.id}: {action} на вопрос #{self.question_id}"
 
 
 class AnswerLike(models.Model):
