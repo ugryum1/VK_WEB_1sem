@@ -81,6 +81,7 @@ class QuestionTag(models.Model):
     class Meta:
         verbose_name = "Тег вопроса"
         verbose_name_plural = "Теги вопросов"
+        unique_together = ['question', 'tag']
 
     question = models.ForeignKey(Question, verbose_name="Вопрос", on_delete=models.CASCADE,
                                  related_name="question_tags")
