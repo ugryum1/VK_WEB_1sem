@@ -22,11 +22,10 @@ class UserProfile(models.Model):
         verbose_name_plural = "Профили пользователя"
 
     avatar = models.ImageField(upload_to="avatars/", default=default_avatar)
-    name = models.CharField(verbose_name="Имя пользователя", max_length=20, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE, unique=True)
 
     def __str__(self):
-        return f"#{self.id}: {self.name}"
+        return f"#{self.id}: {self.user.username}"

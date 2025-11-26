@@ -12,9 +12,8 @@ def login(request, *args, **kwargs):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data["email"]
-            user_obj = User.objects.get(email=email)
-            auth_login(request, user_obj)
+            user = form.cleaned_data["user"]
+            auth_login(request, user)
             return redirect("questions:main_page")
         else:
             return render(request, "core/login.html", context={'form': form})

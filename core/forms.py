@@ -34,6 +34,8 @@ class LoginForm(forms.Form):
                 user_obj = User.objects.get(email=email)
                 if not user_obj.check_password(password):
                     raise ValidationError("Неверный email или пароль")
+                else:
+                    cleaned_data["user"] = user_obj
             except User.DoesNotExist:
                 raise ValidationError("Неверный email или пароль")
 
@@ -65,12 +67,12 @@ class RegisterForm(forms.Form):
             "id": "reg-password-repeat"
         })
     )
-    name = forms.CharField(
+    username = forms.CharField(
         label="Имя",
         widget=forms.TextInput(attrs={
             "class": "form-input",
             "placeholder": "Ваше имя",
-            "id": "reg-name",
+            "id": "reg-username",
             "minlength": "3"
         })
     )
@@ -88,25 +90,25 @@ class RegisterForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data["email"]
 
-        if User.objects.filter(username=email).exists():
+        if User.objects.filter(email=email).exists():
             raise ValidationError("Пользователь с таким email уже существует")
 
         return email
 
 
-    def clean_name(self):
-        name = self.cleaned_data["name"]
+    def clean_username(self):
+        username = self.cleaned_data["username"]
 
-        if len(name) < 3:
+        if len(username) < 3:
             raise ValidationError("Имя должно содержать минимум 3 символа")
 
-        if not re.match(r'^[A-Za-z0-9_]+$', name):
+        if not re.match(r'^[A-Za-z0-9_]+$', username):
             raise ValidationError("Имя может содержать только английские буквы, цифры и нижнее подчёркивание")
 
-        if UserProfile.objects.filter(name=name).exists():
+        if User.objects.filter(username=username).exists():
             raise ValidationError("Имя пользователя уже занято")
 
-        return name
+        return username
 
 
     def clean_password(self):
@@ -131,12 +133,12 @@ class RegisterForm(forms.Form):
 
     def save(self):
         email = self.cleaned_data["email"]
-        name = self.cleaned_data["name"]
+        username = self.cleaned_data["username"]
         password = self.cleaned_data["password"]
         avatar = self.cleaned_data.get('avatar')
 
-        user = User.objects.create_user(username=email, email=email, password=password)
-        profile = UserProfile.objects.create(user=user, name=name)
+        user = User.objects.create_user(username=username, email=email, password=password)
+        profile = UserProfile.objects.create(user=user)
 
         if avatar:
             profile.avatar = avatar

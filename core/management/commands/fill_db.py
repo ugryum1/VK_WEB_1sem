@@ -67,7 +67,6 @@ class Command(BaseCommand):
         for user in created_users:
             profile = UserProfile(
                 user=user,
-                name=user.username,
                 avatar="avatars/anon.png"
             )
             user_profiles.append(profile)
