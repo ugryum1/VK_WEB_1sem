@@ -145,3 +145,95 @@ class RegisterForm(forms.Form):
             profile.save()
 
         return user
+
+
+class SettingsForm(forms.Form):
+    username = forms.CharField(
+        label="Имя пользователя",
+        widget=forms.TextInput(attrs={
+            "class": "form-input",
+            "placeholder": "Ваше имя",
+            "id": "username"
+        })
+    )
+    new_password = forms.CharField(
+        label="Новый пароль",
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            "class": "form-input",
+            "placeholder": "Введите новый пароль",
+            "id": "new-password"
+        })
+    )
+    new_password_repeat = forms.CharField(
+        label="Повторите новый пароль",
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            "class": "form-input",
+            "placeholder": "Повторите новый пароль",
+            "id": "new-password-repeat"
+        })
+    )
+    current_password = forms.CharField(
+        label="Текущий пароль",
+        widget=forms.PasswordInput(attrs={
+            "class": "form-input",
+            "placeholder": "Введите текущий пароль для подтверждения",
+            "id": "current-password"
+        })
+    )
+    avatar = forms.ImageField(
+        label="Аватар",
+        required=False,
+        widget=forms.FileInput(attrs={
+            "class": "avatar-input",
+            "accept": "image/*",
+            "id": "avatar"
+        })
+    )
+
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+
+        if len(username) < 3:
+            raise ValidationError("Имя должно содержать минимум 3 символа")
+
+        if not re.match(r'^[A-Za-z0-9_]+$', username):
+            raise ValidationError("Имя может содержать только английские буквы, цифры и нижнее подчёркивание")
+
+        if User.objects.filter(username=username).exclude(pk=self.user.pk).exists():
+            raise ValidationError("Имя пользователя уже занято")
+
+        return username
+
+
+    def clean_current_password(self):
+        current_password = self.cleaned_data["current_password"]
+
+        if not self.user.check_password(current_password):
+            raise ValidationError("Неверный текущий пароль")
+
+        if not re.match(r'^[A-Za-z0-9_]+$', current_password):
+            raise ValidationError("Пароль может содержать только английские буквы, цифры и нижнее подчёркивание")
+
+        return current_password
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get("new_password")
+        new_password_repeat = cleaned_data.get("new_password_repeat")
+
+        if new_password and new_password_repeat and new_password != new_password_repeat:
+            raise ValidationError("Пароли должны совпадать")
+
+        if new_password and not re.match(r'^[A-Za-z0-9_]+$', new_password):
+                raise ValidationError("Пароль может содержать только английские буквы, цифры и нижнее подчёркивание")
+
+        return cleaned_data
