@@ -11,21 +11,22 @@
         {% csrf_token %}
 
         <div class="form-group">
-            <label for="login" class="form-label">Логин</label>
-            <input type="text" id="login" class="form-input" value="{{ request.user.email }}">
-            <!-- <div class="form-error">Введите корректный email-адерс</div> -->
+            <label for="login" class="form-label">Логин (email)</label>
+            <input type="text" id="login" class="form-input" value="{{ request.user.email }}" readonly>
         </div>
 
         <div class="form-group">
-            <label for="username" class="form-label">Имя</label>
-            <input type="text" id="username" class="form-input" value="{{ request.user.username }}">
-            <!-- <div class="form-error">Минимальная длинна пароля - 3 символа (английские буквы, цифры, нижнее подчёркивание)</div> -->
+            <label for="username" class="form-label">Имя пользователя</label>
+            <input type="text" id="username" name="username" class="form-input"
+                   placeholder="Ваше имя" value="{{ form.username.value|default:request.user.username }}"
+                   required minlength="3">
         </div>
 
         <div class="form-group">
             <label for="new-password" class="form-label">Новый пароль</label>
             <input type="password" id="new-password" name="new_password" class="form-input"
-                value="{{ form.new_password.value|default:'' }}" placeholder="Введите новый пароль (если хотите сменить старый)">
+                value="{{ form.new_password.value|default:'' }}"
+                placeholder="Введите новый пароль (если хотите сменить старый)">
         </div>
 
         <div class="form-group">
@@ -38,7 +39,8 @@
         <div class="form-group">
             <label for="current-password" class="form-label">Текущий пароль (для подтверждения изменений)</label>
             <input type="password" id="current-password" name="current_password"
-                class="form-input" placeholder="Введите текущий пароль для подтверждения" required>
+                class="form-input" placeholder="Введите текущий пароль для подтверждения" required
+                value="{{ form.current_password.value|default:'' }}">
         </div>
 
         <div class="form-group">
@@ -68,9 +70,9 @@
         });
         </script>
 
-        {% if form.non_field_errors %}
+        {% if errors %}
             <div class="messages">
-                {% for error in form.non_field_errors %}
+                {% for error in errors %}
                     <div class="form-error">{{ error }}</div>
                 {% endfor %}
             </div>

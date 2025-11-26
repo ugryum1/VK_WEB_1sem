@@ -49,4 +49,40 @@ def settings(request, *args, **kwargs):
     top_users = UserProfile.objects.top_users()
     top_tags = Tag.objects.top_tags()
 
-    return render(request, "core/settings.html", context={"top_users": top_users, "top_tags": top_tags})
+    errors = []
+
+    if request.method == "POST":
+        form = SettingsForm(request.POST, request.FILES, user=request.user)
+
+        if form.is_valid():
+            user = request.user
+            username = form.cleaned_data["username"]
+            new_password = form.cleaned_data.get("new_password")
+            avatar = form.cleaned_data.get("avatar")
+
+            if username != user.username:
+                user.username = username
+                user.save()
+
+            if new_password:
+                user.set_password(new_password)
+                user.save()
+                auth_login(request, user)
+
+            if avatar:
+                user_profile = UserProfile.objects.get(user=user)
+                user_profile.avatar = avatar
+                user_profile.save()
+
+            return redirect("core:settings")
+        else:
+            for field_errors in form.errors.values():
+                errors.extend(field_errors)
+    else:
+        initial_data = { "username" : request.user.username }
+        form = SettingsForm(initial=initial_data, user=request.user)
+
+
+    return render(request, "core/settings.html",
+                  context={"top_users": top_users, "top_tags": top_tags,
+                           "form": form, "errors": errors})

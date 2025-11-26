@@ -148,6 +148,13 @@ class RegisterForm(forms.Form):
 
 
 class SettingsForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+
+        if self.user:
+            self.fields['username'].initial = self.user.username
+
     username = forms.CharField(
         label="Имя пользователя",
         widget=forms.TextInput(attrs={
@@ -193,11 +200,6 @@ class SettingsForm(forms.Form):
     )
 
 
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super().__init__(*args, **kwargs)
-
-
     def clean_username(self):
         username = self.cleaned_data["username"]
 
@@ -207,7 +209,7 @@ class SettingsForm(forms.Form):
         if not re.match(r'^[A-Za-z0-9_]+$', username):
             raise ValidationError("Имя может содержать только английские буквы, цифры и нижнее подчёркивание")
 
-        if User.objects.filter(username=username).exclude(pk=self.user.pk).exists():
+        if User.objects.filter(username=username).exclude(id=self.user.id).exists():
             raise ValidationError("Имя пользователя уже занято")
 
         return username
