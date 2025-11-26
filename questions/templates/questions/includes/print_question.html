@@ -1,29 +1,25 @@
 <div class="question">
     <div class="question-left">
         <div class="user-avatar">
-            <img src="{{ q.avatar }}" alt="Аватар" class="avatar-img">
+            <img src="{{ q.user.eserprofile.avatar }}" alt="Аватар" class="avatar-img">
         </div>
-        <span class="username-question">{{ q.username }}</span>
+        <span class="username-question">{{ q.user.username }}</span>
         <div class="vote-buttons">
             <button class="vote-up">↑</button>
-            <span class="rating">{{ q.question_rating }}</span>
+            <span class="rating">{{ q.rating }}</span>
             <button class="vote-down">↓</button>
         </div>
     </div>
 
     <div class="question-right">
-        <a href="{% url 'questions:question' q.id %}" class="question-title">{{ q.question_title }}</a>
-        <p class="question-text">{{ q.question_text }}</p>
+        <a href="{% url 'questions:question' q.id %}" class="question-title">{{ q.title }}</a>
+        <p class="question-text">{{ q.description }}</p>
         <div class="question-footer">
-            <a href="{% url 'questions:question' q.id %}" class="answers-link">ответы ({{ q.answers_count }})</a>
+            <a href="{% url 'questions:question' q.id %}" class="answers-link">ответы ({{ q.answers.answers_count }})</a>
             <div class="tags">
                 <span class="tags-label">Теги:</span>
-                {% for tag in q.tags %}
-                    {% for t in top_tags %}
-                        {% if t.tag == tag %}
-                            <a href="{% url 'questions:tag' t.id %}" class="tag">{{ tag }}</a>
-                        {% endif %}
-                    {% endfor %}
+                {% for question_tag in q.question_tags.all %}
+                    <a href="{% url 'questions:tag' question_tag.tag.id %}" class="tag">{{ question_tag.tag.title }}</a>
                 {% endfor %}
             </div>
         </div>

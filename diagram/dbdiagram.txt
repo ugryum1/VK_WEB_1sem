@@ -1,0 +1,109 @@
+Table user {
+  id integer [primary key, not null]
+  username varchar [unique, not null]
+  password varchar [not null]
+  email varchar
+  first_name varchar
+  last_name varchar
+  is_staff boolean
+  is_active boolean
+  is_superuser boolean
+  last_login timestamp
+  date_joined timestamp
+}
+
+Table userprofile {
+  id integer [primary key, not null]
+  avatar varchar
+  name varchar [not null]
+  user_id integer [not null, unique]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table question {
+  id integer [primary key, not null]
+  title varchar
+  description text
+  user_id integer [not null]
+  rating integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table answer {
+  id integer [primary key, not null]
+  question_id integer [not null]
+  text text
+  user_id integer [not null]
+  rating integer
+  is_accepted boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table tag {
+  id integer [primary key, not null]
+  title varchar [unique, not null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table questiontag {
+  id integer [primary key, not null]
+  question_id integer [not null]
+  tag_id integer [not null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table answertag {
+  id integer [primary key, not null]
+  answer_id integer [not null]
+  tag_id integer [not null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table questionlike {
+  id integer [primary key, not null]
+  weight integer [not null]
+  user_id integer [not null]
+  question_id integer [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (user_id, question_id) [unique, name: 'unique_user_question_like']
+  }
+}
+
+Table answerlike {
+  id integer [primary key, not null]
+  weight integer [not null]
+  user_id integer [not null]
+  answer_id integer [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (user_id, answer_id) [unique, name: 'unique_user_answer_like']
+  }
+}
+
+// References
+Ref: user.id - userprofile.user_id
+Ref: user.id - question.user_id
+Ref: user.id - answer.user_id
+Ref: user.id - questionlike.user_id
+Ref: user.id - answerlike.user_id
+
+Ref: question.id - answer.question_id
+Ref: question.id - questiontag.question_id
+Ref: question.id - questionlike.question_id
+
+Ref: answer.id - answertag.answer_id
+Ref: answer.id - answerlike.answer_id
+
+Ref: tag.id - questiontag.tag_id
+Ref: tag.id - answertag.tag_id
