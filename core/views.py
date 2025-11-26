@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from questions.models import Tag
 from .models import UserProfile
 from django.contrib.auth import authenticate, login as auth_login, logout
-from django.contrib.auth.models import User
 from .forms import LoginForm, RegisterForm, SettingsForm
 
 
@@ -49,8 +49,6 @@ def settings(request, *args, **kwargs):
     top_users = UserProfile.objects.top_users()
     top_tags = Tag.objects.top_tags()
 
-    errors = []
-
     if request.method == "POST":
         form = SettingsForm(request.POST, request.FILES, user=request.user)
 
@@ -74,15 +72,13 @@ def settings(request, *args, **kwargs):
                 user_profile.avatar = avatar
                 user_profile.save()
 
-            return redirect("core:settings")
+            return redirect("questions:main_page")
         else:
-            for field_errors in form.errors.values():
-                errors.extend(field_errors)
+            form = SettingsForm(user=request.user)
     else:
         initial_data = { "username" : request.user.username }
         form = SettingsForm(initial=initial_data, user=request.user)
 
 
     return render(request, "core/settings.html",
-                  context={"top_users": top_users, "top_tags": top_tags,
-                           "form": form, "errors": errors})
+                  context={"top_users": top_users, "top_tags": top_tags, "form": form})

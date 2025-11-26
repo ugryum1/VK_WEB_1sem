@@ -232,10 +232,11 @@ class SettingsForm(forms.Form):
         new_password = cleaned_data.get("new_password")
         new_password_repeat = cleaned_data.get("new_password_repeat")
 
+        if new_password and not re.match(r'^[A-Za-z0-9_]+$', new_password) or new_password_repeat and not re.match(
+            r'^[A-Za-z0-9_]+$', new_password_repeat):
+                raise ValidationError("Пароль может содержать только английские буквы, цифры и нижнее подчёркивание")
+
         if new_password and new_password_repeat and new_password != new_password_repeat:
             raise ValidationError("Пароли должны совпадать")
-
-        if new_password and not re.match(r'^[A-Za-z0-9_]+$', new_password):
-                raise ValidationError("Пароль может содержать только английские буквы, цифры и нижнее подчёркивание")
 
         return cleaned_data
