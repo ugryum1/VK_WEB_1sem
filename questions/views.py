@@ -5,6 +5,20 @@ from .models import Question, Answer, Tag, User
 from core.models import UserProfile
 from django.contrib.auth.models import User
 
+def do_pagination(request, count_per_page, data):
+    """ Вспомогательная функция для пагинации """
+    paginator = Paginator(data, count_per_page)
+
+    page_number = request.GET.get('page')
+    try:
+        page_data = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_data = paginator.page(1)
+    except EmptyPage:
+        page_data = paginator.page(paginator.num_pages)
+
+    return page_data
+
 
 def do_pagination(request, count_per_page, data):
     """ Вспомогательная функция для пагинации """
