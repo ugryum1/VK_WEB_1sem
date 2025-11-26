@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from questions.models import Tag
 from .models import UserProfile
-from django.contrib.auth import authenticate, login as auth_login, logout
+from django.contrib.auth import login as auth_login, logout
 from .forms import LoginForm, RegisterForm, SettingsForm
 
 
@@ -27,8 +26,6 @@ def logout_view(request):
 
 
 def register(request, *args, **kwargs):
-    errors = []
-
     if request.method == "POST":
         form = RegisterForm(request.POST, request.FILES)
 
@@ -36,13 +33,10 @@ def register(request, *args, **kwargs):
             user = form.save()
             auth_login(request, user)
             return redirect("questions:main_page")
-        else:
-            for field_errors in form.errors.values():
-                errors.extend(field_errors)
     else:
         form = RegisterForm()
 
-    return render(request, "core/register.html", context={"errors": errors})
+    return render(request, "core/register.html", context={"form": form})
 
 
 def settings(request, *args, **kwargs):
