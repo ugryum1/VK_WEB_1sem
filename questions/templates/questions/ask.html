@@ -8,24 +8,43 @@
 <div class="ask-question-container">
     <h2 class="ask-title">Новый вопрос</h2>
 
-    <form class="question-form">
+    <form class="question-form" method="post">
+        {% csrf_token %}
+
         <div class="form-group">
             <label for="question-title" class="form-label">Название</label>
-            <input type="text" id="question-title" class="form-input" placeholder="Введите заголовок вопроса" required>
-            <div class="form-error">Заполните это поле</div>
+            <input type="text" id="question-title" class="form-input" placeholder="Введите заголовок вопроса"
+                   name="title" value="{{ form.title.value|default:'' }}" required>
+            {% if form.title.errors %}
+                <div class="form-error">{{ form.title.errors.0 }}</div>
+            {% endif %}
         </div>
 
         <div class="form-group">
             <label for="question-text" class="form-label">Текст вопроса</label>
-            <textarea id="question-text" class="form-textarea" placeholder="Опишите подробно ваш вопрос" rows="8" required></textarea>
-            <div class="form-error">Заполните это поле</div>
+            <textarea id="question-text" class="form-textarea" placeholder="Опишите подробно ваш вопрос" rows="8"
+                      name="description" required>{{ form.description.value|default:'' }}</textarea>
+            {% if form.description.errors %}
+                <div class="form-error">{{ form.description.errors.0 }}</div>
+            {% endif %}
         </div>
 
         <div class="form-group">
             <label for="question-tags" class="form-label">Теги</label>
-            <input type="text" id="question-tags" class="form-input" placeholder="python, django, postgresql" required>
-            <div class="form-error">Заполните это поле</div>
+            <input type="text" id="question-tags" class="form-input" name="tags"
+                   placeholder="python, django, postgresql" value="{{ form.tags.value|default:'' }}" required>
+            {% if form.tags.errors %}
+                <div class="form-error">{{ form.tags.errors.0 }}</div>
+            {% endif %}
         </div>
+
+        {% if form.non_field_errors %}
+            <div class="messages">
+                {% for error in form.non_field_errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <button type="submit" class="publish-btn">Опубликовать запрос</button>
     </form>

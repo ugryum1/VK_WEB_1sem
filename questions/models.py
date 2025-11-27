@@ -9,7 +9,7 @@ class QuestionManager(models.Manager):
             'question_tags__tag'
         ).annotate(
             answers_count=models.Count('answers')
-        )
+        ).order_by('-created_at')
 
 
     # Лучшие вопросы по рейтингу

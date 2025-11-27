@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.http import Http404
 from .models import Question, Answer, Tag
 from core.models import UserProfile
-from .forms import AnswerForm
+from .forms import AnswerForm, QuestionForm
 
 
 def do_pagination(request, count_per_page, data):
@@ -70,10 +70,21 @@ def question(request, question_id, *args, **kwargs):
                            "top_users": top_users, "top_tags": top_tags, "form": form})
 
 
+@login_required
 def ask(request, *args, **kwargs):
     top_users, top_tags = get_top_data()
+
+    if request.method == "POST":
+        form = QuestionForm(request.POST, user=request.user)
+
+        if form.is_valid():
+            question = form.save()
+            return redirect("questions:question", question_id=question.id)
+    else:
+        form = QuestionForm(user=request.user)
+
     return render(request, 'questions/ask.html',
-                  context={"top_users": top_users, "top_tags": top_tags})
+                  context={"top_users": top_users, "top_tags": top_tags, "form": form})
 
 
 def tag(request, tag_id, *args, **kwargs):
