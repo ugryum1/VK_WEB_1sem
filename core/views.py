@@ -6,18 +6,20 @@ from .forms import LoginForm, RegisterForm, SettingsForm
 
 
 def login(request, *args, **kwargs):
+    next_url = request.GET.get("next", "questions:main_page")
+
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
             user = form.cleaned_data["user"]
             auth_login(request, user)
-            return redirect("questions:main_page")
+            return redirect(request.POST.get("next", next_url))
         else:
-            return render(request, "core/login.html", context={'form': form})
+            return render(request, "core/login.html", context={'form': form, 'next': next_url})
     else:
         form = LoginForm()
 
-    return render(request, "core/login.html", context={'form': form})
+    return render(request, "core/login.html", context={'form': form, 'next': next_url})
 
 
 def logout_view(request):

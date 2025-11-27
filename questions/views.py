@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.http import Http404
 from .models import Question, Answer, Tag
 from core.models import UserProfile
+from .forms import AnswerForm
 
 
 def do_pagination(request, count_per_page, data):
@@ -43,16 +46,28 @@ def question(request, question_id, *args, **kwargs):
 
     try:
         current_question = Question.objects.with_related_data().get(id=question_id)
-    except:
+    except Question.DoesNotExist:
         raise Http404("Вопрос не найден")
 
     question_answers = Answer.objects.for_question(current_question)
 
     paginated_answers = do_pagination(request, 2, question_answers)
 
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            login_url = f"{reverse('core:login')}?next={request.path}"
+            return redirect(login_url)
+
+        form = AnswerForm(request.POST, user=request.user, question=current_question)
+        if form.is_valid():
+            form.save()
+            return redirect("questions:question", question_id=question_id)
+    else:
+        form = AnswerForm(user=request.user, question=current_question)
+
     return render(request, 'questions/question.html',
                   context={"question": current_question, "answers": paginated_answers,
-                           "top_users": top_users, "top_tags": top_tags})
+                           "top_users": top_users, "top_tags": top_tags, "form": form})
 
 
 def ask(request, *args, **kwargs):

@@ -8,6 +8,8 @@
 <form class="auth-form" method="post">
     {% csrf_token %}
 
+    <input type="hidden" name="next" value="{{ next }}">
+
     <a href="{% url 'questions:main_page' %}" class="logo-link">
         <div class="logo2">
             <h1>QuickAnswer</h1>

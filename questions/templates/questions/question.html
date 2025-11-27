@@ -41,9 +41,24 @@
 
     <div class="answer-form-section">
         <h3 class="answer-form-title">Ваш ответ</h3>
-        <form class="answer-form">
-            <textarea class="answer-textarea" placeholder="Введите ваш ответ здесь..." rows="6" required></textarea>
-            <div class="form-error">Заполните это поле</div>
+        <form class="answer-form" method="post">
+            {% csrf_token %}
+
+            <textarea class="answer-textarea {% if form.text.errors %}form-input-error{% endif %}"
+                      name="text" placeholder="Введите ваш ответ здесь..."
+                      rows="6" required>{{ form.text.value|default:'' }}</textarea>
+            {% if form.text.errors %}
+                <div class="form-error">{{ form.text.errors.0 }}</div>
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <div class="messages">
+                    {% for error in form.non_field_errors %}
+                        <div class="form-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <button type="submit" class="submit-answer-btn">Отправить ответ</button>
         </form>
     </div>
