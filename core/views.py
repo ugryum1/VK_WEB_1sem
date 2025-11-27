@@ -6,7 +6,14 @@ from .forms import LoginForm, RegisterForm, SettingsForm
 
 
 def login(request, *args, **kwargs):
-    next_url = request.GET.get("next", "questions:main_page")
+    next_url = request.GET.get("next")
+
+    if not next_url:
+        referer = request.META.get("HTTP_REFERER", "")
+        if referer and request.get_host() in referer:
+            next_url = referer
+        else:
+            next_url = "questions:main_page"
 
     if request.method == "POST":
         form = LoginForm(request.POST)
@@ -23,8 +30,16 @@ def login(request, *args, **kwargs):
 
 
 def logout_view(request):
+    next_url = request.META.get("HTTP_REFERER", "questions:main_page")
+
+    if next_url and request.get_host() in next_url:
+        if "/login/" in next_url or "/register/" in next_url or "/settings/" in next_url:
+            next_url = "questions:main_page"
+    else:
+        next_url = "questions:main_page"
+
     logout(request)
-    return redirect("questions:main_page")
+    return redirect(next_url)
 
 
 def register(request, *args, **kwargs):
@@ -68,7 +83,7 @@ def settings(request, *args, **kwargs):
                 user_profile.avatar = avatar
                 user_profile.save()
 
-            return redirect("questions:main_page")
+            return redirect("core:settings")
         else:
             form = SettingsForm(user=request.user)
     else:

@@ -49,7 +49,7 @@
                     </div>
                 {% else %}
                     <div class="user-menu">
-                        <a class="log-in-btn" href="{% url 'core:login' %}">Войти</a>
+                        <a class="log-in-btn" href="{% url 'core:login' %}?next={{ request.get_full_path }}">Войти</a>
                         <a class="register-btn" href="{% url 'core:signup' %}">Зарегистрироваться</a>
                     </div>
                 {% endif %}
