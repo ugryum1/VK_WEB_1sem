@@ -120,6 +120,19 @@ class RegisterForm(forms.Form):
         return password
 
 
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get("avatar")
+
+        if avatar:
+            # 10 Mb
+            max_size = 10 * 1024 * 1024
+
+            if avatar.size > max_size:
+                raise ValidationError("Размер файла не должен превышать 10MB")
+
+        return avatar
+
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
@@ -225,6 +238,19 @@ class SettingsForm(forms.Form):
             raise ValidationError("Пароль может содержать только английские буквы, цифры и нижнее подчёркивание")
 
         return current_password
+
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get("avatar")
+
+        if avatar:
+            # 10 Mb
+            max_size = 10 * 1024 * 1024
+
+            if avatar.size > max_size:
+                raise ValidationError("Размер файла не должен превышать 10MB")
+
+        return avatar
 
 
     def clean(self):

@@ -89,8 +89,6 @@ def settings(request, *args, **kwargs):
                 user_profile.save()
 
             return redirect("core:settings")
-        else:
-            form = SettingsForm(user=request.user)
     else:
         initial_data = { "username" : request.user.username }
         form = SettingsForm(initial=initial_data, user=request.user)

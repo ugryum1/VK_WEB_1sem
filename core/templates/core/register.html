@@ -68,6 +68,9 @@
             <input type="file" id="avatar" class="avatar-input" accept="image/*" name="avatar">
             <label for="avatar" class="avatar-btn">Выбрать изображение</label>
         </div>
+        {% if form.avatar.errors %}
+            <div class="form-error">{{ form.avatar.errors.0 }}</div>
+        {% endif %}
     </div>
 
     <script>
