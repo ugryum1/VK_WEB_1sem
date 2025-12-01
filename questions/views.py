@@ -70,9 +70,12 @@ def question(request, question_id, *args, **kwargs):
                            "top_users": top_users, "top_tags": top_tags, "form": form})
 
 
-@login_required
 def ask(request, *args, **kwargs):
     top_users, top_tags = get_top_data()
+
+    if not request.user.is_authenticated:
+            login_url = f"{reverse('core:login')}?next={request.path}"
+            return redirect(login_url)
 
     if request.method == "POST":
         form = QuestionForm(request.POST, user=request.user)
