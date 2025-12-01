@@ -30,13 +30,18 @@ def login(request, *args, **kwargs):
 
 
 def logout_view(request):
-    next_url = request.META.get("HTTP_REFERER", "questions:main_page")
+    referer = request.META.get("HTTP_REFERER", "")
 
-    if next_url and request.get_host() in next_url:
-        if "/login/" in next_url or "/register/" in next_url or "/settings/" in next_url:
-            next_url = "questions:main_page"
-    else:
+    if not referer and request.get_host() not in next_url:
         next_url = "questions:main_page"
+    else:
+        special_pages = ['/settings/', '/ask/', '/login/', '/register/']
+        is_special_page = any(page in referer for page in special_pages)
+
+        if is_special_page:
+            next_url = "questions:main_page"
+        else:
+            next_url = referer
 
     logout(request)
     return redirect(next_url)
