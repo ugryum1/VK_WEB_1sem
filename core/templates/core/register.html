@@ -28,7 +28,7 @@
     <div class="form-group">
         <label for="reg-password" class="form-label">Пароль</label>
         <input type="password" id="reg-password" name="password" class="form-input"
-               value="{{ request.POST.password|default:'' }}" placeholder="Придумайте пароль">
+               value="{{ request.POST.password|default:'' }}" placeholder="Придумайте пароль" required>
         {% if form.password.errors %}
             <div class="form-error">{{ form.password.errors.0 }}</div>
         {% endif %}
@@ -38,7 +38,7 @@
         <label for="reg-password-repeat" class="form-label">Повторите пароль</label>
         <input type="password" id="reg-password-repeat" name="password_repeat"
                class="form-input" value="{{ request.POST.password_repeat|default:'' }}"
-               placeholder="Повторите пароль">
+               placeholder="Повторите пароль" required>
     </div>
 
     <!-- Несовпадение паролей -->

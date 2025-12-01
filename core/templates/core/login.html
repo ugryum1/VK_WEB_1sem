@@ -32,11 +32,9 @@
                value="{{ form.password.value|default:'' }}">
     </div>
 
-    {% if form.non_field_errors %}
+    {% if form.errors %}
         <div class="messages">
-            {% for error in form.non_field_errors %}
-                <div class="form-error">{{ error }}</div>
-            {% endfor %}
+            <div class="form-error">Неверный email или пароль</div>
         </div>
     {% endif %}
 
