@@ -75,26 +75,14 @@ def settings(request, *args, **kwargs):
         form = SettingsForm(request.POST, request.FILES, user=request.user)
 
         if form.is_valid():
-            user = request.user
-            username = form.cleaned_data["username"]
-            new_password = form.cleaned_data.get("new_password")
-            avatar = form.cleaned_data.get("avatar")
+            try:
+                user = form.save(request.user)
+                if form.cleaned_data.get("new_password"):
+                    auth_login(request, user)
 
-            if username != user.username:
-                user.username = username
-                user.save()
-
-            if new_password:
-                user.set_password(new_password)
-                user.save()
-                auth_login(request, user)
-
-            if avatar:
-                user_profile = UserProfile.objects.get(user=user)
-                user_profile.avatar = avatar
-                user_profile.save()
-
-            return redirect("core:settings")
+                return redirect("core:settings")
+            except Exception as e:
+                form.add_error(None, f"Ошибка сохранения: {str(e)}")
     else:
         initial_data = { "username" : request.user.username }
         form = SettingsForm(initial=initial_data, user=request.user)

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from .models import UserProfile
 import re
 
@@ -254,21 +255,32 @@ class SettingsForm(forms.Form):
     def clean_new_password(self):
         new_password = self.cleaned_data["new_password"]
 
-        if len(new_password) < 8:
-            raise ValidationError("Пароль должен содержать минимум 8 символов")
+        if new_password:
+            if len(new_password) < 8:
+                raise ValidationError("Пароль должен содержать минимум 8 символов")
 
-        if not any(char.isdigit() for char in new_password):
-            raise ValidationError("Пароль должен содержать хотя бы одну цифру")
+            if not any(char.isdigit() for char in new_password):
+                raise ValidationError("Пароль должен содержать хотя бы одну цифру")
 
-        if not any(char.isalpha() for char in new_password):
-            raise ValidationError("Пароль должен содержать хотя бы одну букву")
+            if not any(char.isalpha() for char in new_password):
+                raise ValidationError("Пароль должен содержать хотя бы одну букву")
 
-        common_passwords = ["qwerty", "12345678", "password", "87654321", "admin123"]
-        for common_password in common_passwords:
-            if common_password in new_password:
-                raise ValidationError("Этот пароль слишком простой")
+            common_passwords = ["qwerty", "12345678", "password", "87654321", "admin123"]
+            for common_password in common_passwords:
+                if common_password in new_password:
+                    raise ValidationError("Этот пароль слишком простой")
 
         return new_password
+
+
+    def clean_new_password_repeat(self):
+        new_password = self.cleaned_data["new_password"]
+        new_password_repeat = self.cleaned_data["new_password_repeat"]
+
+        if new_password and not new_password_repeat:
+            raise ValidationError("Повторите новый пароль")
+
+        return new_password_repeat
 
 
     def clean_avatar(self):
@@ -293,3 +305,25 @@ class SettingsForm(forms.Form):
             raise ValidationError("Пароли должны совпадать")
 
         return cleaned_data
+
+
+    @transaction.atomic
+    def save(self, user):
+        username = self.cleaned_data["username"]
+        new_password = self.cleaned_data.get("new_password")
+        avatar = self.cleaned_data.get("avatar")
+
+        if username != user.username:
+            user.username = username
+            user.save(update_fields=['username'])
+
+        if new_password:
+            user.set_password(new_password)
+            user.save()
+
+        if avatar:
+            user_profile = UserProfile.objects.get(user=user)
+            user_profile.avatar = avatar
+            user_profile.save()
+
+        return user
