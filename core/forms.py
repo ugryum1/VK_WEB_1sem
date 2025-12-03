@@ -117,6 +117,20 @@ class RegisterForm(forms.Form):
         if not re.match(r'^[A-Za-z0-9_]+$', password):
             raise ValidationError("Пароль может содержать только английские буквы, цифры и нижнее подчёркивание")
 
+        if len(password) < 8:
+            raise ValidationError("Пароль должен содержать минимум 8 символов")
+
+        if not any(char.isdigit() for char in password):
+            raise ValidationError("Пароль должен содержать хотя бы одну цифру")
+
+        if not any(char.isalpha() for char in password):
+            raise ValidationError("Пароль должен содержать хотя бы одну букву")
+
+        common_passwords = ["qwerty", "12345678", "password", "87654321", "admin123"]
+        for common_password in common_passwords:
+            if common_password in password:
+                raise ValidationError("Этот пароль слишком простой")
+
         return password
 
 
@@ -234,10 +248,27 @@ class SettingsForm(forms.Form):
         if not self.user.check_password(current_password):
             raise ValidationError("Неверный текущий пароль")
 
-        if not re.match(r'^[A-Za-z0-9_]+$', current_password):
-            raise ValidationError("Пароль может содержать только английские буквы, цифры и нижнее подчёркивание")
-
         return current_password
+
+
+    def clean_new_password(self):
+        new_password = self.cleaned_data["new_password"]
+
+        if len(new_password) < 8:
+            raise ValidationError("Пароль должен содержать минимум 8 символов")
+
+        if not any(char.isdigit() for char in new_password):
+            raise ValidationError("Пароль должен содержать хотя бы одну цифру")
+
+        if not any(char.isalpha() for char in new_password):
+            raise ValidationError("Пароль должен содержать хотя бы одну букву")
+
+        common_passwords = ["qwerty", "12345678", "password", "87654321", "admin123"]
+        for common_password in common_passwords:
+            if common_password in new_password:
+                raise ValidationError("Этот пароль слишком простой")
+
+        return new_password
 
 
     def clean_avatar(self):
@@ -257,10 +288,6 @@ class SettingsForm(forms.Form):
         cleaned_data = super().clean()
         new_password = cleaned_data.get("new_password")
         new_password_repeat = cleaned_data.get("new_password_repeat")
-
-        if new_password and not re.match(r'^[A-Za-z0-9_]+$', new_password) or new_password_repeat and not re.match(
-            r'^[A-Za-z0-9_]+$', new_password_repeat):
-                raise ValidationError("Пароль может содержать только английские буквы, цифры и нижнее подчёркивание")
 
         if new_password and new_password_repeat and new_password != new_password_repeat:
             raise ValidationError("Пароли должны совпадать")
