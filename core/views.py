@@ -3,6 +3,7 @@ from questions.models import Tag
 from .models import UserProfile
 from django.contrib.auth import login as auth_login, logout
 from .forms import LoginForm, RegisterForm, SettingsForm
+from urllib.parse import urlparse, urlunparse
 
 
 def login(request, *args, **kwargs):
@@ -11,9 +12,14 @@ def login(request, *args, **kwargs):
     if not next_url:
         referer = request.META.get("HTTP_REFERER", "")
         if referer and request.get_host() in referer:
-            next_url = referer
+            parsed = urlparse(referer)
+            clean_url = urlunparse((parsed.scheme, parsed.netloc, parsed.path, '', '', ''))
+            next_url = clean_url
         else:
             next_url = "questions:main_page"
+
+    if '?' in next_url:
+        next_url = next_url.split('?')[0]
 
     if request.method == "POST":
         form = LoginForm(request.POST)
