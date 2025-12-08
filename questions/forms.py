@@ -6,6 +6,7 @@ from .models import Answer, Question, Tag, QuestionTag
 class AnswerForm(forms.Form):
     text = forms.CharField(
         label="Ваш ответ",
+        max_length=10000,
         widget=forms.Textarea(attrs={
             "class": "answer-textarea",
             "placeholder": "Введите ваш ответ здесь...",
@@ -51,6 +52,7 @@ class QuestionForm(forms.Form):
     )
     description = forms.CharField(
         label="Текст вопроса",
+        max_length=10000,
         widget=forms.TextInput(attrs={
             "class": "form-textarea",
             "placeholder": "Опишите подробно ваш вопрос",
@@ -60,6 +62,7 @@ class QuestionForm(forms.Form):
     )
     tags = forms.CharField(
         label="Теги",
+        max_length=200,
         widget=forms.TextInput(attrs={
             "class": "form-input",
             "placeholder": "python, django, postgresql",
@@ -94,13 +97,15 @@ class QuestionForm(forms.Form):
 
         tag_list = [tag.strip().lower() for tag in tags.split(",") if tag.strip()]
 
-        if len(tag_list) == 0:
+        unique_tags = list(set(tag_list))
+
+        if len(unique_tags) == 0:
             raise ValidationError("Укажите хотя бы один тег")
 
-        if len(tag_list) > 5:
+        if len(unique_tags) > 5:
             raise ValidationError("Можно указать не более 5 тегов")
 
-        return tag_list
+        return unique_tags
 
 
     def save(self):

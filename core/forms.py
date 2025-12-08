@@ -9,6 +9,7 @@ import re
 class LoginForm(forms.Form):
     email = forms.EmailField(
         label="Логин",
+        max_length=50,
         widget=forms.EmailInput(attrs={
             "class": "form-input",
             "placeholder": "Введите email",
@@ -17,6 +18,7 @@ class LoginForm(forms.Form):
     )
     password = forms.CharField(
         label="Пароль",
+        max_length=50,
         widget=forms.PasswordInput(attrs={
             "class": "form-input",
             "placeholder": "Введите пароль",
@@ -46,6 +48,7 @@ class LoginForm(forms.Form):
 class RegisterForm(forms.Form):
     email = forms.EmailField(
         label="Логин",
+        max_length=50,
         widget=forms.EmailInput(attrs={
             "class": "form-input",
             "placeholder": "Введите email",
@@ -54,6 +57,7 @@ class RegisterForm(forms.Form):
     )
     password = forms.CharField(
         label="Пароль",
+        max_length=50,
         widget=forms.PasswordInput(attrs={
             "class": "form-input",
             "placeholder": "Придумайте пароль",
@@ -62,6 +66,7 @@ class RegisterForm(forms.Form):
     )
     password_repeat = forms.CharField(
         label="Повторите пароль",
+        max_length=50,
         widget=forms.PasswordInput(attrs={
             "class": "form-input",
             "placeholder": "Повторите пароль",
@@ -70,6 +75,7 @@ class RegisterForm(forms.Form):
     )
     username = forms.CharField(
         label="Имя",
+        max_length=30,
         widget=forms.TextInput(attrs={
             "class": "form-input",
             "placeholder": "Ваше имя",
@@ -185,6 +191,7 @@ class SettingsForm(forms.Form):
 
     username = forms.CharField(
         label="Имя пользователя",
+        max_length=30,
         widget=forms.TextInput(attrs={
             "class": "form-input",
             "placeholder": "Ваше имя",
@@ -193,6 +200,7 @@ class SettingsForm(forms.Form):
     )
     new_password = forms.CharField(
         label="Новый пароль",
+        max_length=50,
         required=False,
         widget=forms.PasswordInput(attrs={
             "class": "form-input",
@@ -202,6 +210,7 @@ class SettingsForm(forms.Form):
     )
     new_password_repeat = forms.CharField(
         label="Повторите новый пароль",
+        max_length=50,
         required=False,
         widget=forms.PasswordInput(attrs={
             "class": "form-input",
@@ -211,6 +220,7 @@ class SettingsForm(forms.Form):
     )
     current_password = forms.CharField(
         label="Текущий пароль",
+        max_length=50,
         widget=forms.PasswordInput(attrs={
             "class": "form-input",
             "placeholder": "Введите текущий пароль для подтверждения",
