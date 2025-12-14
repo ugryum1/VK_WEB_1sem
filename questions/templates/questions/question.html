@@ -31,7 +31,9 @@
                 <div class="question-text">
                     <p>{{ a.text }}</p>
                 </div>
-                <button class="answer-action">Ответ подходит</button>
+                {% if request.user == a.question.user %}
+                    <button class="answer-action">Ответ подходит</button>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
