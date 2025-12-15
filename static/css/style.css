@@ -713,6 +713,48 @@ body {
     background: #219a52;
 }
 
+.accepted-answer {
+    border: 2px solid #27ae60;
+    background-color: rgba(39, 174, 96, 0.05);
+    border-radius: 8px;
+}
+
+.accepted-badge {
+    display: inline-block;
+    background: #27ae60;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.accept-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.accept-btn[data-accepted="true"] {
+    background: #e74c3c;
+}
+
+.accept-btn:hover {
+    background: #219a52;
+}
+
+.accept-btn[data-accepted="true"]:hover {
+    background: #c0392b;
+}
+
 .answer-form-section {
     background: #fff;
     border-radius: 12px;

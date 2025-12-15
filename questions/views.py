@@ -242,3 +242,27 @@ def answer_vote(request, answer_id):
         'new_rating': answer.rating,
         'user_vote': weight
     })
+
+
+@login_required
+@require_POST
+def accept_answer(request, answer_id):
+    try:
+        answer = Answer.objects.select_related('question').get(id=answer_id)
+    except Answer.DoesNotExist:
+        return JsonResponse({'error': 'Ответ не найден'}, status=404)
+
+    if answer.question.user != request.user:
+        return JsonResponse({
+            'error': 'Только автор вопроса может отмечать ответ как правильный',
+            'success': False
+        }, status=403)
+
+    answer.is_accepted = not answer.is_accepted
+    answer.save()
+
+    return JsonResponse({
+        'success': True,
+        'is_accepted': answer.is_accepted,
+        'answer_id': answer_id
+    })

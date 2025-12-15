@@ -1,3 +1,19 @@
+// Функция для получения CSRF токена
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Обработчик для лайков/дизлайков
     document.querySelectorAll('.vote-up, .vote-down').forEach(button => {
@@ -64,20 +80,60 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+});
 
-    // Функция для получения CSRF токена
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+// Обработчик для кнопки "Ответ подходит"
+document.querySelectorAll('.accept-btn').forEach(button => {
+    button.addEventListener('click', async function() {
+        const answerId = this.getAttribute('data-answer-id');
+        const isCurrentlyAccepted = this.getAttribute('data-accepted') === 'true';
+
+        try {
+            const response = await fetch(`/answer/${answerId}/accept/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
                 }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                const answerElement = this.closest('.question.answer');
+
+                if (!answerElement) {
+                    console.error('Не найден элемент ответа');
+                    return;
+                }
+
+                const badge = answerElement.querySelector('.accepted-badge');
+                const button = answerElement.querySelector('.accept-btn');
+
+                if (data.is_accepted) {
+                    answerElement.classList.add('accepted-answer');
+                    if (!badge) {
+                        const badgeDiv = document.createElement('div');
+                        badgeDiv.className = 'accepted-badge';
+                        badgeDiv.textContent = '✓ Правильный ответ';
+                        answerElement.querySelector('.question-text').appendChild(badgeDiv);
+                    }
+                    button.textContent = 'Отменить принятие';
+                    button.setAttribute('data-accepted', 'true');
+                } else {
+                    answerElement.classList.remove('accepted-answer');
+                    if (badge) badge.remove();
+                    button.textContent = 'Ответ подходит';
+                    button.removeAttribute('data-accepted');
+                }
+
+            } else {
+                alert('Ошибка: ' + data.error);
             }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Произошла ошибка');
         }
-        return cookieValue;
-    }
+    });
 });

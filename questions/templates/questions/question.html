@@ -34,9 +34,16 @@
             <div class="question-right">
                 <div class="question-text">
                     <p>{{ a.text }}</p>
+                    {% if a.is_accepted %}
+                        <div class="accepted-badge">✓ Правильный ответ</div>
+                    {% endif %}
                 </div>
                 {% if request.user == a.question.user %}
-                    <button class="answer-action">Ответ подходит</button>
+                    <button class="answer-action accept-btn"
+                            data-answer-id="{{ a.id }}"
+                            {% if a.is_accepted %}data-accepted="true"{% endif %}>
+                        {% if a.is_accepted %}Отменить принятие{% else %}Ответ подходит{% endif %}
+                    </button>
                 {% endif %}
             </div>
         </div>
