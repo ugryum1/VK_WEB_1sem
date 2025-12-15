@@ -3,7 +3,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import Http404
-from .models import Question, Answer, Tag
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .models import Question, Answer, Tag, QuestionLike, AnswerLike, LikeType
 from core.models import UserProfile
 from .forms import AnswerForm, QuestionForm
 
@@ -35,6 +37,9 @@ def index(request, *args, **kwargs):
     top_users, top_tags = get_top_data()
     questions_list = Question.objects.with_related_data()
 
+    for question in questions_list:
+        question.template_vote = question.get_user_vote(request.user) if request.user.is_authenticated else 0
+
     page_questions = do_pagination(request, 3, questions_list)
 
     return render(request, 'questions/index.html',
@@ -49,7 +54,14 @@ def question(request, question_id, *args, **kwargs):
     except Question.DoesNotExist:
         raise Http404("Вопрос не найден")
 
+    current_question.template_vote = current_question.get_user_vote(
+        request.user
+    ) if request.user.is_authenticated else 0
+
     question_answers = Answer.objects.for_question(current_question)
+
+    for answer in question_answers:
+        answer.template_vote = answer.get_user_vote(request.user) if request.user.is_authenticated else 0
 
     paginated_answers = do_pagination(request, 2, question_answers)
 
@@ -99,6 +111,10 @@ def tag(request, tag_id, *args, **kwargs):
         raise Http404("Тег не найден")
 
     tag_questions = Question.objects.by_tag(current_tag)
+
+    for question in tag_questions:
+        question.template_vote = question.get_user_vote(request.user) if request.user.is_authenticated else 0
+
     page_questions = do_pagination(request, 3, tag_questions)
 
     return render(request, 'questions/tag.html',
@@ -111,7 +127,118 @@ def top(request, *args, **kwargs):
 
     questions_list = Question.objects.top_questions()
 
+    for question in questions_list:
+        question.template_vote = question.get_user_vote(request.user) if request.user.is_authenticated else 0
+
     page_questions = do_pagination(request, 3, questions_list)
 
     return render(request, 'questions/top_questions.html',
                   context={"questions": page_questions, "top_users": top_users, "top_tags": top_tags})
+
+
+@login_required
+@require_POST
+def question_vote(request, question_id):
+    try:
+        question = Question.objects.get(id=question_id)
+    except Question.DoesNotExist:
+        return JsonResponse({'error': 'Вопрос не найден'}, status=404)
+
+    if question.user == request.user:
+        return JsonResponse({
+            'error': 'Вы не можете голосовать за свой собственный вопрос',
+            'success': False
+        }, status=400)
+
+    action = request.POST.get('action')
+
+    if action == 'like':
+        weight = LikeType.LIKE
+    elif action == 'dislike':
+        weight = LikeType.DISLIKE
+    elif action == 'remove':
+        weight = 0
+    else:
+        return JsonResponse({'error': 'Неверное действие'}, status=400)
+
+    try:
+        like = QuestionLike.objects.get(user=request.user, question=question)
+
+        if weight == 0:
+            like.delete()
+        elif like.weight != weight:
+            like.weight = weight
+            like.save()
+        else:
+            pass
+
+    except QuestionLike.DoesNotExist:
+        if weight != 0:
+            QuestionLike.objects.create(
+                user=request.user,
+                question=question,
+                weight=weight
+            )
+
+    question.update_rating()
+    question.refresh_from_db()
+
+    return JsonResponse({
+        'success': True,
+        'new_rating': question.rating,
+        'user_vote': weight
+    })
+
+
+@login_required
+@require_POST
+def answer_vote(request, answer_id):
+    try:
+        answer = Answer.objects.get(id=answer_id)
+    except Answer.DoesNotExist:
+        return JsonResponse({'error': 'Ответ не найден'}, status=404)
+
+    if answer.user == request.user:
+        return JsonResponse({
+            'error': 'Вы не можете голосовать за свой собственный ответ',
+            'success': False
+        }, status=400)
+
+    action = request.POST.get('action')
+
+    if action == 'like':
+        weight = LikeType.LIKE
+    elif action == 'dislike':
+        weight = LikeType.DISLIKE
+    elif action == 'remove':
+        weight = 0
+    else:
+        return JsonResponse({'error': 'Неверное действие'}, status=400)
+
+    try:
+        like = AnswerLike.objects.get(user=request.user, answer=answer)
+
+        if weight == 0:
+            like.delete()
+        elif like.weight != weight:
+            like.weight = weight
+            like.save()
+        else:
+            pass
+
+    except AnswerLike.DoesNotExist:
+        if weight != 0:
+            AnswerLike.objects.create(
+                user=request.user,
+                answer=answer,
+                weight=weight
+            )
+
+    answer.update_rating()
+    answer.refresh_from_db()
+
+    return JsonResponse({
+        'success': True,
+        'new_rating': answer.rating,
+        'user_vote': weight
+    })

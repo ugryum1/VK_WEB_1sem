@@ -5,9 +5,13 @@
         </div>
         <span class="username-question">{{ q.user.username }}</span>
         <div class="vote-buttons">
-            <button class="vote-up">↑</button>
+            <button class="vote-up {% if q.template_vote == 1 %}active{% endif %}"
+                    data-id="{{ q.id }}"
+                    data-type="question">↑</button>
             <span class="rating">{{ q.rating }}</span>
-            <button class="vote-down">↓</button>
+            <button class="vote-down {% if q.template_vote == -1 %}active{% endif %}"
+                    data-id="{{ q.id }}"
+                    data-type="question">↓</button>
         </div>
     </div>
 

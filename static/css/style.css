@@ -434,6 +434,28 @@ body {
     border-color: #e74c3c;
 }
 
+.vote-up.active {
+    background-color: #27ae60;
+    border-color: #27ae60;
+    color: white;
+}
+
+.vote-down.active {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+    color: white;
+}
+
+.vote-up.active:hover {
+    background-color: #219653;
+    border-color: #219653;
+}
+
+.vote-down.active:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
 .rating {
     font-weight: bold;
     font-size: 16px;

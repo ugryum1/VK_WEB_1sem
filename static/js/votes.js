@@ -1,0 +1,83 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Обработчик для лайков/дизлайков
+    document.querySelectorAll('.vote-up, .vote-down').forEach(button => {
+        button.addEventListener('click', function() {
+            const voteId = this.getAttribute('data-id');
+            const voteType = this.getAttribute('data-type');
+            const isUpButton = this.classList.contains('vote-up');
+            const isDownButton = this.classList.contains('vote-down');
+            const ratingElement = this.parentElement.querySelector('.rating');
+            const upButton = this.parentElement.querySelector('.vote-up');
+            const downButton = this.parentElement.querySelector('.vote-down');
+
+            // Определяем текущее действие
+            let action;
+            if (isUpButton) {
+                action = upButton.classList.contains('active') ? 'remove' : 'like';
+            } else if (isDownButton) {
+                action = downButton.classList.contains('active') ? 'remove' : 'dislike';
+            }
+
+            // Отправляем AJAX запрос
+            const url = voteType === 'question'
+            ? `/question/${voteId}/like/`
+            : `/answer/${voteId}/like/`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: `action=${action}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Обновляем рейтинг
+                    ratingElement.textContent = data.new_rating;
+
+                    // Обновляем состояние кнопок
+                    if (data.user_vote === 1) {
+                        upButton.classList.add('active');
+                        downButton.classList.remove('active');
+                    } else if (data.user_vote === -1) {
+                        upButton.classList.remove('active');
+                        downButton.classList.add('active');
+                    } else {
+                        upButton.classList.remove('active');
+                        downButton.classList.remove('active');
+                    }
+                } else {
+                    if (data.error === 'Authentication required') {
+                        // Перенаправляем на страницу логина
+                        const nextUrl = encodeURIComponent(window.location.pathname);
+                        window.location.href = `/core/login/?next=${nextUrl}`;
+                    } else {
+                        alert('Ошибка: ' + data.error);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Произошла ошибка при голосовании');
+            });
+        });
+    });
+
+    // Функция для получения CSRF токена
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
