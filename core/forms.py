@@ -284,8 +284,9 @@ class SettingsForm(forms.Form):
 
 
     def clean_new_password_repeat(self):
-        new_password = self.cleaned_data["new_password"]
-        new_password_repeat = self.cleaned_data["new_password_repeat"]
+        cleaned_data = self.cleaned_data
+        new_password = cleaned_data.get("new_password")
+        new_password_repeat = cleaned_data.get("new_password_repeat")
 
         if new_password and not new_password_repeat:
             raise ValidationError("Повторите новый пароль")
