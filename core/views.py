@@ -26,7 +26,8 @@ def login(request, *args, **kwargs):
         if form.is_valid():
             user = form.cleaned_data["user"]
             auth_login(request, user)
-            return redirect(request.POST.get("next", next_url))
+            redirect_to = request.POST.get("next") or next_url
+            return redirect(redirect_to)
         else:
             return render(request, "core/login.html", context={'form': form, 'next': next_url})
     else:
@@ -37,6 +38,7 @@ def login(request, *args, **kwargs):
 
 def logout_view(request):
     referer = request.META.get("HTTP_REFERER", "")
+    next_url = "questions:main_page"
 
     if not referer and request.get_host() not in next_url:
         next_url = "questions:main_page"

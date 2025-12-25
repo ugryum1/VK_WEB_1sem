@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import Http404
 from django.http import JsonResponse
+from django.db import transaction
 from django.views.decorators.http import require_POST
 from .models import Question, Answer, Tag, QuestionLike, AnswerLike, LikeType
 from core.models import UserProfile
@@ -136,6 +137,7 @@ def top(request, *args, **kwargs):
                   context={"questions": page_questions, "top_users": top_users, "top_tags": top_tags})
 
 
+@transaction.atomic
 @login_required
 @require_POST
 def question_vote(request, question_id):
@@ -152,19 +154,20 @@ def question_vote(request, question_id):
 
     action = request.POST.get('action')
 
+    default_weight = 0
     if action == 'like':
         weight = LikeType.LIKE
     elif action == 'dislike':
         weight = LikeType.DISLIKE
     elif action == 'remove':
-        weight = 0
+        weight = default_weight
     else:
         return JsonResponse({'error': 'Неверное действие'}, status=400)
 
     try:
         like = QuestionLike.objects.get(user=request.user, question=question)
 
-        if weight == 0:
+        if weight == default_weight:
             like.delete()
         elif like.weight != weight:
             like.weight = weight
@@ -173,7 +176,7 @@ def question_vote(request, question_id):
             pass
 
     except QuestionLike.DoesNotExist:
-        if weight != 0:
+        if weight != default_weight:
             QuestionLike.objects.create(
                 user=request.user,
                 question=question,
@@ -206,19 +209,20 @@ def answer_vote(request, answer_id):
 
     action = request.POST.get('action')
 
+    default_weight = 0
     if action == 'like':
         weight = LikeType.LIKE
     elif action == 'dislike':
         weight = LikeType.DISLIKE
     elif action == 'remove':
-        weight = 0
+        weight = default_weight
     else:
         return JsonResponse({'error': 'Неверное действие'}, status=400)
 
     try:
         like = AnswerLike.objects.get(user=request.user, answer=answer)
 
-        if weight == 0:
+        if weight == default_weight:
             like.delete()
         elif like.weight != weight:
             like.weight = weight
@@ -227,7 +231,7 @@ def answer_vote(request, answer_id):
             pass
 
     except AnswerLike.DoesNotExist:
-        if weight != 0:
+        if weight != default_weight:
             AnswerLike.objects.create(
                 user=request.user,
                 answer=answer,
