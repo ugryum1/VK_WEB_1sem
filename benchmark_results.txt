@@ -1,0 +1,308 @@
+1-й тест
+Статика через Nginx: ab -n 1000 -c 10 http://localhost/test.txt
+
+This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        nginx/1.29.4
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /test.txt
+Document Length:        190 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.199 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      423000 bytes
+HTML transferred:       190000 bytes
+Requests per second:    5033.04 [#/sec] (mean)
+Time per request:       1.987 [ms] (mean)
+Time per request:       0.199 [ms] (mean, across all concurrent requests)
+Transfer rate:          2079.08 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:     1    2   0.3      2       5
+Waiting:        0    2   0.3      2       4
+Total:          1    2   0.3      2       5
+
+Percentage of the requests served within a certain time (ms)
+  50%      2
+  66%      2
+  75%      2
+  80%      2
+  90%      2
+  95%      2
+  98%      3
+  99%      3
+ 100%      5 (longest request)
+
+------------------------------------------------------------------------
+
+2-й тест
+Статика через Gunicorn: ab -n 1000 -c 10 http://localhost:8081/static/test.txt
+
+This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        gunicorn
+Server Hostname:        localhost
+Server Port:            8081
+
+Document Path:          /static/test.txt
+Document Length:        190 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.357 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      553000 bytes
+HTML transferred:       190000 bytes
+Requests per second:    2803.00 [#/sec] (mean)
+Time per request:       3.568 [ms] (mean)
+Time per request:       0.357 [ms] (mean, across all concurrent requests)
+Transfer rate:          1513.73 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:     1    3   1.8      3      39
+Waiting:        1    3   1.8      3      39
+Total:          2    3   1.8      3      40
+
+Percentage of the requests served within a certain time (ms)
+  50%      3
+  66%      3
+  75%      3
+  80%      3
+  90%      4
+  95%      6
+  98%      6
+  99%      6
+ 100%     40 (longest request)
+
+------------------------------------------------------------------------
+
+3-й тест
+Динамика напрямую: ab -n 1000 -c 10 http://localhost:8081/
+
+This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        gunicorn
+Server Hostname:        localhost
+Server Port:            8081
+
+Document Path:          /
+Document Length:        11304 bytes
+
+Concurrency Level:      10
+Time taken for tests:   10.610 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      11601000 bytes
+HTML transferred:       11304000 bytes
+Requests per second:    94.25 [#/sec] (mean)
+Time per request:       106.104 [ms] (mean)
+Time per request:       10.610 [ms] (mean, across all concurrent requests)
+Transfer rate:          1067.74 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:     0  120  19.1    117     186
+Waiting:        0  119  19.1    117     186
+Total:          0  120  19.1    117     186
+
+Percentage of the requests served within a certain time (ms)
+  50%    117
+  66%    122
+  75%    126
+  80%    128
+  90%    140
+  95%    148
+  98%    155
+  99%    157
+ 100%    186 (longest request)
+
+------------------------------------------------------------------------
+
+4-й тест
+Динамика через Nginx: ab -n 1000 -c 10 http://localhost/
+
+This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        nginx/1.29.4
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /
+Document Length:        11304 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.225 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      11625004 bytes
+HTML transferred:       11304000 bytes
+Requests per second:    4450.70 [#/sec] (mean)
+Time per request:       2.247 [ms] (mean)
+Time per request:       0.225 [ms] (mean, across all concurrent requests)
+Transfer rate:          50526.71 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       0
+Processing:     1    2   3.6      2      91
+Waiting:        1    2   3.6      2      91
+Total:          1    2   3.6      2      92
+
+Percentage of the requests served within a certain time (ms)
+  50%      2
+  66%      2
+  75%      2
+  80%      2
+  90%      2
+  95%      2
+  98%      2
+  99%      2
+ 100%     92 (longest request)
+
+------------------------------------------------------------------------
+
+5-й тест
+Динамика + Кэш: ab -n 1000 -c 10 http://localhost/
+
+This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        nginx/1.29.4
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /
+Document Length:        11304 bytes
+
+Concurrency Level:      10
+Time taken for tests:   0.194 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      11625000 bytes
+HTML transferred:       11304000 bytes
+Requests per second:    5155.30 [#/sec] (mean)
+Time per request:       1.940 [ms] (mean)
+Time per request:       0.194 [ms] (mean, across all concurrent requests)
+Transfer rate:          58525.78 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:     0    2   0.3      2       4
+Waiting:        0    2   0.3      2       4
+Total:          1    2   0.3      2       4
+
+Percentage of the requests served within a certain time (ms)
+  50%      2
+  66%      2
+  75%      2
+  80%      2
+  90%      2
+  95%      2
+  98%      3
+  99%      3
+ 100%      4 (longest request)
+
+------------------------------------------------------------------------
+
+ОТВЕТЫ НА ВОПРОСЫ
+
+1. Насколько быстрее отдается статика по сравнению с WSGI?
+  Отдача статики через Nginx происходит значительно быстрее выполнения динамических WSGI-скриптов. По результатам тестов:
+  Статика (Nginx): 5033.04 RPS.
+  Динамика (Gunicorn напрямую): 94.25 RPS.
+  Статика отдается примерно в 53 раза быстрее, чем формируется динамический ответ через WSGI. Это объясняется тем, что Nginx оптимизирован для работы с файловой системой, тогда как Gunicorn тратит ресурсы на интерпретацию Python-кода.
+
+2. Во сколько раз ускоряет работу proxy_cache?
+  Использование proxy_cache на стороне Nginx практически нивелирует задержки динамической генерации контента:
+  Динамика напрямую (Gunicorn): 94.25 RPS.
+  Динамика через Nginx с кэшем: 5155.30 RPS.
+  Кэширование ускоряет работу системы почти в 55 раз. При включенном кэше Nginx отдает ранее сохраненный результат без обращения к Gunicorn, что позволяет достичь скорости, сопоставимой с отдачей обычной статики.
