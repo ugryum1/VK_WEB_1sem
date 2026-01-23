@@ -4,13 +4,6 @@
 <title>Вопрос</title>
 {% endblock %}
 
-{% block header %}
-<div class="user-menu">
-    <a class="log-in-btn" href="{% url 'core:login' %}">Войти</a>
-    <a class="register-btn" href="{% url 'core:signup' %}">Зарегистрироваться</a>
-</div>
-{% endblock %}
-
 {% block content %}
 <div class="question-page">
     <div class="questions">
@@ -18,27 +11,40 @@
     </div>
 
     <div class="answers-section">
-        <h2 class="answers-title">Ответы ({{ answers.paginator.answers_count }})</h2>
+        <h2 class="answers-title">Ответы ({{ answers.paginator.count }})</h2>
 
         {% for a in answers %}
         <div class="question answer">
             <div class="question-left">
                 <div class="user-avatar">
-                    <img src="{{ a.user.userprofile.avatar }}" alt="Аватар" class="avatar-img">
+                    <img src="{{ a.user.userprofile.avatar.url }}" alt="Аватар" class="avatar-img">
                 </div>
                 <span class="username-question">{{ a.user.username }}</span>
                 <div class="vote-buttons">
-                    <button class="vote-up">↑</button>
+                    <button class="vote-up {% if a.template_vote == 1 %}active{% endif %}"
+                            data-id="{{ a.id }}"
+                            data-type="answer">↑</button>
                     <span class="rating">{{ a.rating }}</span>
-                    <button class="vote-down">↓</button>
+                    <button class="vote-down {% if a.template_vote == -1 %}active{% endif %}"
+                            data-id="{{ a.id }}"
+                            data-type="answer">↓</button>
                 </div>
             </div>
 
             <div class="question-right">
                 <div class="question-text">
                     <p>{{ a.text }}</p>
+                    {% if a.is_accepted %}
+                        <div class="accepted-badge">✓ Правильный ответ</div>
+                    {% endif %}
                 </div>
-                <button class="answer-action">Ответ подходит</button>
+                {% if request.user == a.question.user %}
+                    <button class="answer-action accept-btn"
+                            data-answer-id="{{ a.id }}"
+                            {% if a.is_accepted %}data-accepted="true"{% endif %}>
+                        {% if a.is_accepted %}Отменить принятие{% else %}Ответ подходит{% endif %}
+                    </button>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -48,9 +54,24 @@
 
     <div class="answer-form-section">
         <h3 class="answer-form-title">Ваш ответ</h3>
-        <form class="answer-form">
-            <textarea class="answer-textarea" placeholder="Введите ваш ответ здесь..." rows="6" required></textarea>
-            <div class="form-error">Заполните это поле</div>
+        <form class="answer-form" method="post">
+            {% csrf_token %}
+
+            <textarea class="answer-textarea {% if form.text.errors %}form-input-error{% endif %}"
+                      name="text" placeholder="Введите ваш ответ здесь..."
+                      rows="6" required>{{ form.text.value|default:'' }}</textarea>
+            {% if form.text.errors %}
+                <div class="form-error">{{ form.text.errors.0 }}</div>
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <div class="messages">
+                    {% for error in form.non_field_errors %}
+                        <div class="form-error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <button type="submit" class="submit-answer-btn">Отправить ответ</button>
         </form>
     </div>

@@ -434,6 +434,28 @@ body {
     border-color: #e74c3c;
 }
 
+.vote-up.active {
+    background-color: #27ae60;
+    border-color: #27ae60;
+    color: white;
+}
+
+.vote-down.active {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+    color: white;
+}
+
+.vote-up.active:hover {
+    background-color: #219653;
+    border-color: #219653;
+}
+
+.vote-down.active:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
 .rating {
     font-weight: bold;
     font-size: 16px;
@@ -689,6 +711,48 @@ body {
 
 .answer-action:hover {
     background: #219a52;
+}
+
+.accepted-answer {
+    border: 2px solid #27ae60;
+    background-color: rgba(39, 174, 96, 0.05);
+    border-radius: 8px;
+}
+
+.accepted-badge {
+    display: inline-block;
+    background: #27ae60;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.accept-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.accept-btn[data-accepted="true"] {
+    background: #e74c3c;
+}
+
+.accept-btn:hover {
+    background: #219a52;
+}
+
+.accept-btn[data-accepted="true"]:hover {
+    background: #c0392b;
 }
 
 .answer-form-section {

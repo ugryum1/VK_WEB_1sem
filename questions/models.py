@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Sum
 
 
 class QuestionManager(models.Manager):
@@ -9,7 +10,7 @@ class QuestionManager(models.Manager):
             'question_tags__tag'
         ).annotate(
             answers_count=models.Count('answers')
-        )
+        ).order_by('-created_at')
 
 
     # Лучшие вопросы по рейтингу
@@ -55,6 +56,7 @@ class Tag(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
         return f"#{self.id}: {self.title}"
 
@@ -73,14 +75,32 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
         return f"#{self.id}: {self.title}"
+
+
+    def update_rating(self):
+        likes_sum = QuestionLike.objects.filter(question=self).aggregate(total=Sum('weight'))['total']
+        self.rating = likes_sum if likes_sum is not None else 0
+        self.save(update_fields=['rating'])
+
+
+    def get_user_vote(self, user):
+        if not user.is_authenticated:
+            return 0
+        try:
+            like = QuestionLike.objects.get(user=user, question=self)
+            return like.weight
+        except QuestionLike.DoesNotExist:
+            return 0
 
 
 class QuestionTag(models.Model):
     class Meta:
         verbose_name = "Тег вопроса"
         verbose_name_plural = "Теги вопросов"
+        unique_together = ['question', 'tag']
 
     question = models.ForeignKey(Question, verbose_name="Вопрос", on_delete=models.CASCADE,
                                  related_name="question_tags")
@@ -88,8 +108,9 @@ class QuestionTag(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
-        return f"#{self.id}: {self.question.title} - {self.tag.title}"
+        return f"Тег #{self.tag_id} к вопросу #{self.question_id}"
 
 
 class Answer(models.Model):
@@ -107,8 +128,25 @@ class Answer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
-        return f"#{self.id}: Ответ на '{self.question.title}'"
+        return f"#{self.id}: Ответ на вопрос #{self.question_id}"
+
+
+    def update_rating(self):
+        likes_sum = AnswerLike.objects.filter(answer=self).aggregate(total=Sum('weight'))['total']
+        self.rating = likes_sum if likes_sum is not None else 0
+        self.save(update_fields=['rating'])
+
+
+    def get_user_vote(self, user):
+        if not user.is_authenticated:
+            return 0
+        try:
+            like = AnswerLike.objects.get(user=user, answer=self)
+            return like.weight
+        except AnswerLike.DoesNotExist:
+            return 0
 
 
 class AnswerTag(models.Model):
@@ -121,8 +159,9 @@ class AnswerTag(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
-        return f"#{self.id}: {self.answer.question.title} - {self.tag.title}"
+        return f"Тег #{self.tag_id} к ответу #{self.answer_id}"
 
 
 class LikeType(models.IntegerChoices):
@@ -149,7 +188,7 @@ class QuestionLike(models.Model):
 
     def __str__(self):
         action = "Лайк" if self.weight == LikeType.LIKE else "Дизлайк"
-        return f"#{self.id}: {action} на '{self.question.title}'"
+        return f"#{self.id}: {action} на вопрос #{self.question_id}"
 
 
 class AnswerLike(models.Model):

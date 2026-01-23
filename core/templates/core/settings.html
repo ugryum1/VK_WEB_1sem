@@ -5,31 +5,94 @@
 {% endblock %}
 
 {% block content %}
-<h2 class="settings-title">Настройки: Dr. Pepsi</h2>
+<h2 class="settings-title">Настройки: {{request.user.userprofile.name}}</h2>
 
-    <form enctype="multipart/form-data" method="POST">
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+
         <div class="form-group">
-            <label for="login" class="form-label">Логин</label>
-            <input type="text" id="login" class="form-input" value="dr.pepsi@example.com">
-            <div class="form-error">Введите корректный email-адерс</div>
+            <label for="login" class="form-label">Логин (email)</label>
+            <input type="text" id="login" class="form-input" value="{{ request.user.email }}" readonly>
         </div>
 
         <div class="form-group">
-            <label for="name" class="form-label">Имя</label>
-            <input type="text" id="name" class="form-input" value="Dr. Pepsi">
-            <div class="form-error">Минимальная длинна пароля - 3 символа (английские буквы, цифры, нижнее подчёркивание)</div>
+            <label for="username" class="form-label">Имя пользователя</label>
+            <input type="text" id="username" name="username" class="form-input"
+                   placeholder="Ваше имя" value="{{ form.username.value|default:request.user.username }}"
+                   required minlength="3">
+            {% if form.username.errors %}
+                <div class="form-error">{{ form.username.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="new-password" class="form-label">Новый пароль</label>
+            <input type="password" id="new-password" name="new_password" class="form-input"
+                value="{{ form.new_password.value|default:'' }}"
+                placeholder="Введите новый пароль (если хотите сменить старый)">
+            {% if form.new_password.errors %}
+                <div class="form-error">{{ form.new_password.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="new-password-repeat" class="form-label">Повторите новый пароль</label>
+            <input type="password" id="new-password-repeat" name="new_password_repeat"
+                class="form-input" value="{{ form.new_password_repeat.value|default:'' }}"
+                placeholder="Повторите новый пароль">
+            {% if form.new_password_repeat.errors %}
+                <div class="form-error">{{ form.new_password_repeat.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Ошибки паролей -->
+        {% if form.non_field_errors %}
+            <div class="messages">
+                {% for error in form.non_field_errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="current-password" class="form-label">Текущий пароль (для подтверждения изменений)</label>
+            <input type="password" id="current-password" name="current_password"
+                class="form-input" placeholder="Введите текущий пароль для подтверждения" required
+                value="{{ form.current_password.value|default:'' }}">
+            {% if form.current_password.errors %}
+                <div class="form-error">{{ form.current_password.errors.0 }}</div>
+            {% endif %}
         </div>
 
         <div class="form-group">
             <label class="form-label">Аватар</label>
             <div class="avatar-upload">
                 <div class="avatar-preview">
-                    <img src="/static/img/Dr_Pepsi.png" alt="Текущий аватар" class="avatar-current">
+                    <img id="avatar-preview" src="{{ request.user.userprofile.avatar.url }}" alt="Текущий аватар" class="avatar-current">
                 </div>
                 <input type="file" id="avatar" class="avatar-input" accept="image/*" name="avatar">
                 <label for="avatar" class="avatar-btn">Выбрать изображение</label>
             </div>
+            {% if form.avatar.errors %}
+                <div class="form-error">{{ form.avatar.errors.0 }}</div>
+            {% endif %}
         </div>
+
+        <script>
+        const avatarInput = document.getElementById('avatar');
+        const avatarPreview = document.getElementById('avatar-preview');
+
+        avatarInput.addEventListener('change', function(){
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    avatarPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        </script>
 
         <button type="submit" class="save-btn">Сохранить</button>
     </form>

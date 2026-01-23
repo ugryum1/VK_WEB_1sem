@@ -9,6 +9,8 @@
 - PostgreSQL 15
 - Docker 🐳
 - psycopg2-binary
+- gunicorn 23.0.0
+- nginx
 
 ## Архитектура проекта
 
@@ -65,5 +67,5 @@ docker-compose exec web python manage.py createsuperuser
 
 ## Доступ к приложению
 
-- Веб-приложение: [http://localhost:8000](http://localhost:8000)
-- Админ-панель: [http://localhost:8000/admin](http://localhost:8000/admin)
+- Веб-приложение: [http://localhost](http://localhost)
+- Админ-панель: [http://localhost/admin](http://localhost/admin)

@@ -17,3 +17,14 @@ __pycache__/
 *.sqlite3
 
 .env
+
+media/avatars/*
+!media/avatars/anon.png
+!media/avatars/monkey.gif
+
+staticfiles/
+/var/cache/nginx/
+
+*.log
+
+.DS_Store
