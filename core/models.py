@@ -14,6 +14,13 @@ class UserProfileManager(models.Manager):
         ).order_by('-question_count')[:limit]
 
 
+class UserProfileManager(models.Manager):
+    def top_users(self, limit=3):
+        return self.get_queryset().annotate(
+            question_count=models.Count('user__question')
+        ).order_by('-question_count')[:limit]
+
+
 class UserProfile(models.Model):
     objects = UserProfileManager()
 
